@@ -19,6 +19,8 @@ export type TCellTheme = keyof typeof cellTheme;
 export class Cell extends LitElement {
   @property({ type: String })
   theme: TCellTheme = 'squareLight';
+  @property({ type: Function })
+  onClick: () => void = () => {};
 
   private getTheme(theme: TCellTheme) {
     return cellTheme?.[theme] ?? cellTheme.squareLight;
@@ -28,7 +30,7 @@ export class Cell extends LitElement {
     const themeValue = this.getTheme(this.theme);
     const cellChildren = `cell-children ${themeValue}`;
 
-    return html` <div class=${cellChildren}></div> `;
+    return html` <div class=${cellChildren} @click=${this.onClick}></div> `;
   }
 
   static styles = cellStyles;
