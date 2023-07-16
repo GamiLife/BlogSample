@@ -1,8 +1,8 @@
-export class Node {
-  value: any;
-  next: Node | null;
+export class Node<T> {
+  value: T;
+  next: Node<T> | null;
 
-  constructor(value: any) {
+  constructor(value: T) {
     this.value = value;
     this.next = null;
   }

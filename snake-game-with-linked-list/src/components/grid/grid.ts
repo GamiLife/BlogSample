@@ -1,45 +1,110 @@
 import { LitElement, html } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
-import { TCellTheme } from '../cell/cell';
+import { customElement, property, state } from 'lit/decorators.js';
 import { gridChildrenStyles, gridStyles } from './style';
 
 import { styleMap } from 'lit/directives/style-map.js';
 
 import '../cell/cell';
-import { emptyMap, isEven, isOdd } from '../../utils';
-import { LinkedList } from '../../utils/LinkedList';
+import {
+  TKeyboardEvents,
+  emptyMap,
+  getCellValue,
+  getFoodPositionValue,
+  haveBeenEatenFood,
+  manageKeyEvent,
+  validKeyboardCodes,
+} from '../../utils';
+import { CellController, SnakeController } from '../../controllers';
+import { themeCell } from '../../directives';
+
+export type TSnakePosition = {
+  col: number;
+  row: number;
+};
+
+export type TDirections = 'up' | 'down' | 'left' | 'right';
 
 @customElement('grid-element')
 export class Grid extends LitElement {
   @property({ type: Number })
   sizeX: number = 0;
-
   @property({ type: Number })
   sizeY: number = 0;
 
-  @property({ type: LinkedList })
-  snake: LinkedList = new LinkedList();
+  @state()
+  foodPositionValue?: number;
+  @state()
+  positionValues: number[] = [];
 
-  private getThemeByCell(row: number, column: number): TCellTheme {
-    const isOddRow = isOdd(row);
-    const isOddColumn = isOddRow ? isOdd(column) : isEven(column);
-    return isOddColumn ? 'squareLight' : 'squareDark';
-  }
-
-  private buildNodeValue(i: number, j: number) {
+  get sharedStore() {
     return {
-      col: j,
-      row: i,
+      snake: this.snakeController.snake,
+      snakePositionValues: this.snakeController.snakePositionValues,
+      sizeX: this.sizeX,
+      sizeY: this.sizeY,
     };
   }
 
-  private initializeSnake(i: number, j: number) {
-    const isEmptySnake = !this.snake.length;
+  private snakeController = new SnakeController(this, this.sizeX);
+  private cellController = new CellController(this, this.sharedStore);
 
-    if (!isEmptySnake) return;
+  private move(direction: TDirections) {
+    const newPosition = this.cellController.getNewHeadSnakePosition(direction);
+    if (!newPosition) return;
 
-    const nodeValue = this.buildNodeValue(i, j);
-    this.snake.push(nodeValue);
+    const eatFood = haveBeenEatenFood(
+      newPosition.row,
+      newPosition.col,
+      this.sizeX,
+      this.foodPositionValue
+    );
+    if (eatFood) {
+      this.generateFood();
+      this.snakeController.resizeByAxis(newPosition.row, newPosition.col);
+      return;
+    }
+    this.snakeController.moveByAxis(newPosition.row, newPosition.col);
+  }
+
+  private handlerKeys(e: KeyboardEvent) {
+    const code = e.code;
+    if (validKeyboardCodes.some((item) => code === item)) {
+      const direction = manageKeyEvent[code as TKeyboardEvents];
+      this.move(direction);
+    }
+  }
+
+  private generateFood() {
+    const foodGeneratedToDisplay = getFoodPositionValue({
+      snakePositionValues: this.snakeController.snakePositionValues,
+      positionValues: this.positionValues,
+    });
+    this.foodPositionValue = foodGeneratedToDisplay;
+  }
+
+  private handlerInitSnake(i: number, j: number) {
+    const isInitial = this.snakeController.initializeSnake(i, j);
+    if (!isInitial) return;
+
+    this.generateFood();
+  }
+
+  //TODO: Improve with any observer pattern or susbscription only for values that we wanna update not every change updated
+  updated() {
+    this.cellController.store = this.sharedStore;
+    this.snakeController.sizeX = this.sizeX;
+
+    if (this.positionValues.length) return;
+    this.positionValues = emptyMap((this.sizeY + 1) * (this.sizeX + 1) - 1).map(
+      (_, i) => i
+    );
+  }
+
+  constructor() {
+    super();
+    this.getRootNode().addEventListener('keydown', (e) =>
+      this.handlerKeys(e as KeyboardEvent)
+    );
   }
 
   render() {
@@ -53,8 +118,15 @@ export class Grid extends LitElement {
             (_, j) =>
               html`
                 <cell-element
-                  theme=${this.getThemeByCell(i, j)}
-                  .onClick=${() => this.initializeSnake(i, j)}
+                  theme=${themeCell(
+                    i,
+                    j,
+                    this.snakeController.snakePositionValues,
+                    this.sizeX,
+                    this.foodPositionValue
+                  )}
+                  value=${getCellValue(i, j, this.sizeX)}
+                  .onClick=${this.handlerInitSnake.bind(this, i, j)}
                 ></cell-element>
               `
           )

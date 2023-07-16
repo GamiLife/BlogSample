@@ -6,6 +6,7 @@ export const cellTheme = {
   squareLight: 'light',
   squareDark: 'dark',
   squareSnake: 'snake',
+  squareFood: 'food',
 };
 
 export type TCellTheme = keyof typeof cellTheme;
@@ -17,6 +18,8 @@ export type TCellTheme = keyof typeof cellTheme;
  */
 @customElement('cell-element')
 export class Cell extends LitElement {
+  @property({ type: Number })
+  value?: number;
   @property({ type: String })
   theme: TCellTheme = 'squareLight';
   @property({ type: Function })
@@ -30,7 +33,9 @@ export class Cell extends LitElement {
     const themeValue = this.getTheme(this.theme);
     const cellChildren = `cell-children ${themeValue}`;
 
-    return html` <div class=${cellChildren} @click=${this.onClick}></div> `;
+    return html`
+      <div class=${cellChildren} @click=${this.onClick}>${this.value}</div>
+    `;
   }
 
   static styles = cellStyles;

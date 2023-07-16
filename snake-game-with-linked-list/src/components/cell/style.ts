@@ -10,6 +10,11 @@ export const cellStyles = css`
     width: inherit;
     height: inherit;
 
+    color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
     &.dark {
       background-color: #c4d7b2;
     }
@@ -20,6 +25,10 @@ export const cellStyles = css`
 
     &.snake {
       background-color: #f24c3d;
+    }
+
+    &.food {
+      background-color: #a076f9;
     }
   }
 `;
