@@ -49,7 +49,7 @@ export class Grid extends LitElement {
   private cellController = new CellController(this, this.sharedStore);
 
   private move(direction: TDirections) {
-    const newPosition = this.cellController.getNewHeadSnakePosition(direction);
+    const newPosition = this.cellController.getNewTailSnakePosition(direction);
     if (!newPosition) return;
 
     const eatFood = haveBeenEatenFood(
@@ -60,10 +60,18 @@ export class Grid extends LitElement {
     );
     if (eatFood) {
       this.generateFood();
-      this.snakeController.resizeByAxis(newPosition.row, newPosition.col);
+      this.snakeController.resizeByAxis(
+        newPosition.row,
+        newPosition.col,
+        direction
+      );
       return;
     }
-    this.snakeController.moveByAxis(newPosition.row, newPosition.col);
+    this.snakeController.moveByAxis(
+      newPosition.row,
+      newPosition.col,
+      direction
+    );
   }
 
   private handlerKeys(e: KeyboardEvent) {

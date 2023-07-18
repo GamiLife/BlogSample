@@ -38,11 +38,8 @@ export class CellController implements ReactiveController {
     };
   }
 
-  private getValuesByDirection(
-    tailValues: TSnakePosition,
-    direction: TDirections
-  ) {
-    const { col, row } = tailValues;
+  private getValuesByDirection(values: TSnakePosition, direction: TDirections) {
+    const { col, row } = values;
     const { col: colByPosition, row: rowByPosition } = getByPosition(col, row)[
       direction
     ];
@@ -58,14 +55,22 @@ export class CellController implements ReactiveController {
     return newValue;
   }
 
-  getNewHeadSnakePosition(direction: TDirections) {
-    const head = this.store.snake.head?.value;
+  //TODO: Valid correctly getting the snake values either head or tail
+  private getSnakeValues(direction: TDirections) {
+    return this.store.snake.currentDirection === direction
+      ? this.store.snake.tail?.value
+      : this.store.snake.head?.value;
+  }
 
-    if (!head) {
+  getNewTailSnakePosition(direction: TDirections) {
+    let values = this.getSnakeValues(direction);
+
+    if (!values) {
       return null;
     }
-    const newHeadPosition = this.getValuesByDirection(head, direction);
-    return newHeadPosition;
+    const newTailPosition = this.getValuesByDirection(values, direction);
+
+    return newTailPosition;
   }
 
   hostConnected(): void {}

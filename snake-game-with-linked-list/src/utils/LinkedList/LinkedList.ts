@@ -1,9 +1,12 @@
+import { TDirections } from '../../components/grid/grid';
 import { Node } from './Node';
 
 export class LinkedList<T> {
   head: Node<T> | null;
   tail: Node<T> | null;
   length: number;
+
+  currentDirection: TDirections | null = null;
 
   constructor() {
     this.head = null;
@@ -83,41 +86,88 @@ export class LinkedList<T> {
     return this;
   }
 
-  removeTailAddingNewValuesToHead(valueForNewHead: T) {
+  moveAddingNewValuesToTail(valueForNewTail: T, currentDirection: TDirections) {
     if (!this.length) return this;
     if (!this.head) return this;
+    if (!this.tail) return this;
 
     if (this.length === 1) {
-      this.head.value = valueForNewHead;
+      this.head.value = valueForNewTail;
+      this.tail.value = valueForNewTail;
       return this;
     }
 
-    let currentHead = this.head;
-    let node: Node<T> = this.head;
-    for (let i = 0; i < this.length; i++) {
-      const isLastBefore = node?.next && !node.next?.next;
-      if (isLastBefore) {
-        if (node.next) {
-          node.next.next = currentHead;
-          node.next.value = valueForNewHead;
-          this.head = node.next;
-        }
+    const shouldBeReversed =
+      currentDirection && currentDirection !== this.currentDirection;
+    this.currentDirection = currentDirection;
 
-        node.next = null;
-        this.tail = node;
-      }
-
-      if (node.next) node = node.next;
+    if (shouldBeReversed) {
+      this.reverse();
     }
+
+    let secondItem = this.head.next;
+    this.head.next = null;
+
+    if (this.tail) {
+      this.tail.next = this.head;
+    }
+    this.tail = this.head;
+    this.tail.value = valueForNewTail;
+
+    this.head = secondItem;
 
     return this;
   }
 
-  //TODO: Add New value to new head algorithm
-  addNewValueToNewHead(valuesForHead: T) {
+  reverse() {
+    if (!this.length) return this;
+    if (this.length === 1) return this;
+
+    let prev = null;
+    let current = this.head;
+    let next = null;
+
+    let tempTail = null;
+    let tempHead = null;
+
+    for (let i = 0; i < this.length; i++) {
+      next = current?.next || null;
+      if (current) current.next = prev;
+      prev = current;
+      if (i === 0) {
+        tempTail = prev;
+      }
+      if (this.length - 1 === i) {
+        tempHead = prev;
+      }
+      current = next;
+    }
+
+    this.tail = null;
+    this.head = null;
+
+    this.tail = tempTail;
+    this.head = tempHead;
+
+    return this;
+  }
+
+  resizeAddingNewValueToNewHead(
+    valuesForHead: T,
+    currentDirection: TDirections | null
+  ) {
     if (!this.length || !this.head) {
       return this.push(valuesForHead);
     }
-    return this;
+
+    const shouldBeReversed =
+      currentDirection && currentDirection !== this.currentDirection;
+    this.currentDirection = currentDirection;
+
+    if (shouldBeReversed) {
+      this.reverse();
+    }
+
+    return this.push(valuesForHead);
   }
 }

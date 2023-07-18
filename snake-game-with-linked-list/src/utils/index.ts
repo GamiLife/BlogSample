@@ -9,10 +9,35 @@ export const emptyMap = (size: number) => Array(size).fill('');
 export const getCellValue = (row: number, col: number, sizeX: number) =>
   sizeX * row + col;
 
+export const resizeAddingNewValueToNewHead = (
+  snakeArr: Number[],
+  positionValue: number,
+  directionType: TDirections | null
+) => {
+  if (directionType && ['right', 'down'].includes(directionType)) {
+    return new Set([...snakeArr, positionValue]);
+  }
+  return new Set([positionValue, ...snakeArr]);
+};
+
+/**
+ * Order of items are important because I'm using slice method
+ * so the order related with the head and the tail of snake
+ * @param snakeArr
+ * @param positionValue
+ * @param directionType
+ * @returns
+ */
 export const removeTailAddingNewValuesToHead = (
   snakeArr: Number[],
-  positionValue: number
-) => new Set([...snakeArr.slice(1), positionValue]);
+  positionValue: number,
+  directionType: TDirections
+) => {
+  if (['right', 'down'].includes(directionType)) {
+    return new Set([...snakeArr.slice(1), positionValue]);
+  }
+  return new Set([positionValue, ...snakeArr.slice(0, -1)]);
+};
 
 export const validKeyboardCodes = [
   'ArrowDown',

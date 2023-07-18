@@ -3,8 +3,9 @@ import {
   buildNodeValue,
   getCellValue,
   removeTailAddingNewValuesToHead,
+  resizeAddingNewValueToNewHead,
 } from '../utils';
-import { TSnakePosition } from '../components/grid/grid';
+import { TDirections, TSnakePosition } from '../components/grid/grid';
 import { LinkedList } from '../utils/LinkedList';
 
 export class SnakeController {
@@ -19,48 +20,57 @@ export class SnakeController {
     this.sizeX = sizeX;
   }
 
-  private moveHeadSnakeToThisPositionValue(snakePositions: TSnakePosition) {
+  private moveSnakeToThisPositionValue(
+    snakePositions: TSnakePosition,
+    directions: TDirections
+  ) {
     const { row, col } = snakePositions;
     const positionValue = getCellValue(row, col, this.sizeX);
 
     const snakeArr = [...this.snakePositionValues];
     this._snakePositionValues = removeTailAddingNewValuesToHead(
       snakeArr,
-      positionValue
+      positionValue,
+      directions
     );
-    this._snake.removeTailAddingNewValuesToHead(snakePositions);
+    this._snake.moveAddingNewValuesToTail(snakePositions, directions);
 
     this.host.requestUpdate();
   }
 
   private resizeSnakeAddingThisPositionValueToHead(
-    snakePositions: TSnakePosition
+    snakePositions: TSnakePosition,
+    directions: TDirections | null
   ) {
     const { row, col } = snakePositions;
     const positionValue = getCellValue(row, col, this.sizeX);
 
     const snakeArr = [...this.snakePositionValues];
-    this._snakePositionValues = new Set([...snakeArr, positionValue]);
-    this._snake.addNewValueToNewHead(snakePositions);
+    this._snakePositionValues = resizeAddingNewValueToNewHead(
+      snakeArr,
+      positionValue,
+      directions
+    );
+    this._snake.resizeAddingNewValueToNewHead(snakePositions, directions);
 
     this.host.requestUpdate();
   }
 
-  moveByAxis(row: number, col: number) {
+  moveByAxis(row: number, col: number, directions: TDirections) {
     const nodeValue = buildNodeValue(row, col);
-    this.moveHeadSnakeToThisPositionValue(nodeValue);
+    this.moveSnakeToThisPositionValue(nodeValue, directions);
   }
 
-  resizeByAxis(row: number, col: number) {
+  resizeByAxis(row: number, col: number, directions: TDirections | null) {
     const nodeValue = buildNodeValue(row, col);
-    this.resizeSnakeAddingThisPositionValueToHead(nodeValue);
+    this.resizeSnakeAddingThisPositionValueToHead(nodeValue, directions);
   }
 
   initializeSnake(i: number, j: number) {
     const isEmptySnake = !this.snake.length;
     if (!isEmptySnake) return false;
 
-    this.resizeByAxis(i, j);
+    this.resizeByAxis(i, j, null);
     return true;
   }
 
