@@ -92,6 +92,12 @@ export class Grid extends LitElement {
     const code = e.code;
     if (validKeyboardCodes.some((item) => code === item)) {
       const direction = manageKeyEvent[code as TKeyboardEvents];
+
+      if (this.intervalId) {
+        clearInterval(this.intervalId);
+        this.intervalId = setInterval(() => this.autoSnakeMovement(), 200);
+      }
+
       this.move(direction);
     }
   }
