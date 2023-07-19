@@ -15,7 +15,7 @@ import {
   validKeyboardCodes,
 } from '../../utils';
 import { CellController, SnakeController } from '../../controllers';
-import { themeCell } from '../../directives';
+import { scoreDirective, themeCell } from '../../directives';
 
 export type TSnakePosition = {
   col: number;
@@ -31,6 +31,11 @@ export class Grid extends LitElement {
   @property({ type: Number })
   sizeY: number = 0;
 
+  intervalId?: number;
+
+  score: number = 0;
+  @state()
+  gameOver: boolean = false;
   @state()
   foodPositionValue?: number;
   @state()
@@ -49,32 +54,41 @@ export class Grid extends LitElement {
   private cellController = new CellController(this, this.sharedStore);
 
   private move(direction: TDirections) {
-    const newPosition = this.cellController.getNewTailSnakePosition(direction);
-    if (!newPosition) return;
+    try {
+      const newPosition =
+        this.cellController.getNewTailSnakePosition(direction);
+      if (!newPosition) return;
 
-    const eatFood = haveBeenEatenFood(
-      newPosition.row,
-      newPosition.col,
-      this.sizeX,
-      this.foodPositionValue
-    );
-    if (eatFood) {
-      this.generateFood();
-      this.snakeController.resizeByAxis(
+      const eatFood = haveBeenEatenFood(
+        newPosition.row,
+        newPosition.col,
+        this.sizeX,
+        this.foodPositionValue
+      );
+      if (eatFood) {
+        this.generateFood();
+        this.snakeController.resizeByAxis(
+          newPosition.row,
+          newPosition.col,
+          direction
+        );
+        return;
+      }
+      this.snakeController.moveByAxis(
         newPosition.row,
         newPosition.col,
         direction
       );
-      return;
+    } catch (error) {
+      this.gameOver = true;
     }
-    this.snakeController.moveByAxis(
-      newPosition.row,
-      newPosition.col,
-      direction
-    );
   }
 
   private handlerKeys(e: KeyboardEvent) {
+    if (this.gameOver) {
+      return;
+    }
+
     const code = e.code;
     if (validKeyboardCodes.some((item) => code === item)) {
       const direction = manageKeyEvent[code as TKeyboardEvents];
@@ -97,13 +111,28 @@ export class Grid extends LitElement {
     this.generateFood();
   }
 
+  autoSnakeMovement() {
+    if (this.gameOver) return;
+    if (!this.snakeController.snake.currentDirection) {
+      return;
+    }
+    this.move(this.snakeController.snake.currentDirection);
+  }
+
   //TODO: Improve with any observer pattern or susbscription only for values that we wanna update not every change updated
   updated() {
     this.cellController.store = this.sharedStore;
     this.snakeController.sizeX = this.sizeX;
 
+    if (this.intervalId === undefined) {
+      this.intervalId = setInterval(() => this.autoSnakeMovement(), 200);
+    }
+    if (this.gameOver && this.intervalId != undefined) {
+      clearInterval(this.intervalId);
+    }
+
     if (this.positionValues.length) return;
-    this.positionValues = emptyMap((this.sizeY + 1) * (this.sizeX + 1) - 1).map(
+    this.positionValues = emptyMap(this.sizeY * this.sizeX - 1).map(
       (_, i) => i
     );
   }
@@ -117,28 +146,33 @@ export class Grid extends LitElement {
 
   render() {
     return html`
-      <div
-        style=${styleMap(gridChildrenStyles(this.sizeX, this.sizeY))}
-        class="grid"
-      >
-        ${emptyMap(this.sizeY).map((_, i) =>
-          emptyMap(this.sizeX).map(
-            (_, j) =>
-              html`
-                <cell-element
-                  theme=${themeCell(
-                    i,
-                    j,
-                    this.snakeController.snakePositionValues,
-                    this.sizeX,
-                    this.foodPositionValue
-                  )}
-                  value=${getCellValue(i, j, this.sizeX)}
-                  .onClick=${this.handlerInitSnake.bind(this, i, j)}
-                ></cell-element>
-              `
-          )
-        )}
+      <div>
+        <div class="score">
+          ${scoreDirective(this.snakeController.snakePositionValues)}
+        </div>
+        <div
+          style=${styleMap(gridChildrenStyles(this.sizeX, this.sizeY))}
+          class="grid"
+        >
+          ${emptyMap(this.sizeY).map((_, i) =>
+            emptyMap(this.sizeX).map(
+              (_, j) =>
+                html`
+                  <cell-element
+                    theme=${themeCell(
+                      i,
+                      j,
+                      this.snakeController.snakePositionValues,
+                      this.sizeX,
+                      this.foodPositionValue
+                    )}
+                    value=${getCellValue(i, j, this.sizeX)}
+                    .onClick=${this.handlerInitSnake.bind(this, i, j)}
+                  ></cell-element>
+                `
+            )
+          )}
+        </div>
       </div>
     `;
   }

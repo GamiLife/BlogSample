@@ -3,6 +3,7 @@ import { css } from 'lit';
 export const gridStyles = css`
   :host {
     width: 90%;
+    margin: auto;
   }
 
   .grid {
@@ -13,6 +14,11 @@ export const gridStyles = css`
     &:hover {
       cursor: pointer;
     }
+  }
+
+  .score {
+    color: black;
+    font-weight: 600;
   }
 `;
 

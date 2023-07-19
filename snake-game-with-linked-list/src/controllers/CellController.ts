@@ -1,5 +1,5 @@
 import { ReactiveController, ReactiveControllerHost } from 'lit';
-import { getByPosition, validInterval } from '../utils';
+import { getByPosition, isOposite, validInterval } from '../utils';
 import { TDirections, TSnakePosition } from '../components/grid/grid';
 import { LinkedList } from '../utils/LinkedList';
 
@@ -19,7 +19,15 @@ export class CellController implements ReactiveController {
     this.store = store;
   }
 
-  private getValidAxis(col: number, row: number) {
+  private getValidAxis(col: number, row: number, throwError = true) {
+    if (throwError && (col < 0 || col >= this.store.sizeX)) {
+      throw new Error('Invalid range');
+    }
+
+    if (throwError && (row < 0 || col >= this.store.sizeY)) {
+      throw new Error('Invalid range');
+    }
+
     const validCol = validInterval({
       value: col,
       min: 0,
@@ -40,9 +48,12 @@ export class CellController implements ReactiveController {
 
   private getValuesByDirection(values: TSnakePosition, direction: TDirections) {
     const { col, row } = values;
-    const { col: colByPosition, row: rowByPosition } = getByPosition(col, row)[
+    const { col: colByPosition, row: rowByPosition } = getByPosition(
+      col,
+      row,
+      this.store.snake.currentDirection,
       direction
-    ];
+    )[direction];
 
     const { validCol, validRow } = this.getValidAxis(
       colByPosition,
@@ -55,11 +66,16 @@ export class CellController implements ReactiveController {
     return newValue;
   }
 
-  //TODO: Valid correctly getting the snake values either head or tail
   private getSnakeValues(direction: TDirections) {
-    return this.store.snake.currentDirection === direction
-      ? this.store.snake.tail?.value
-      : this.store.snake.head?.value;
+    const isOpositeDirection = isOposite(
+      this.store.snake.currentDirection,
+      direction
+    );
+    if (isOpositeDirection) {
+      return this.store.snake.head?.value;
+    }
+
+    return this.store.snake.tail?.value;
   }
 
   getNewTailSnakePosition(direction: TDirections) {

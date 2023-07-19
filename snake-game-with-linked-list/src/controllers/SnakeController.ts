@@ -27,11 +27,17 @@ export class SnakeController {
     const { row, col } = snakePositions;
     const positionValue = getCellValue(row, col, this.sizeX);
 
+    const isCollition = this.isCollitionWithItself(positionValue);
+    if (isCollition) {
+      throw new Error('Collition itself snake');
+    }
+
     const snakeArr = [...this.snakePositionValues];
     this._snakePositionValues = removeTailAddingNewValuesToHead(
       snakeArr,
       positionValue,
-      directions
+      directions,
+      this.snake.currentDirection
     );
     this._snake.moveAddingNewValuesToTail(snakePositions, directions);
 
@@ -45,11 +51,17 @@ export class SnakeController {
     const { row, col } = snakePositions;
     const positionValue = getCellValue(row, col, this.sizeX);
 
+    const isCollition = this.isCollitionWithItself(positionValue);
+    if (isCollition) {
+      throw new Error('Collition itself snake');
+    }
+
     const snakeArr = [...this.snakePositionValues];
     this._snakePositionValues = resizeAddingNewValueToNewHead(
       snakeArr,
       positionValue,
-      directions
+      directions,
+      this.snake.currentDirection
     );
     this._snake.resizeAddingNewValueToNewHead(snakePositions, directions);
 
@@ -72,6 +84,10 @@ export class SnakeController {
 
     this.resizeByAxis(i, j, null);
     return true;
+  }
+
+  isCollitionWithItself(currentCellValue: Number) {
+    return this.snakePositionValues.has(currentCellValue);
   }
 
   get snake() {

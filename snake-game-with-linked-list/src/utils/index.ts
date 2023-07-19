@@ -9,20 +9,78 @@ export const emptyMap = (size: number) => Array(size).fill('');
 export const getCellValue = (row: number, col: number, sizeX: number) =>
   sizeX * row + col;
 
+export const sortItemsOfSnake = (
+  snakeArr: Number[],
+  positionValue: number,
+  directionType: TDirections,
+  currentSnakeDirection: TDirections | null,
+  isAddingNewItemToSnake: boolean
+) => {
+  const isOpositeDirection = isOposite(currentSnakeDirection, directionType);
+  const isAppliedVariations = isAppliedSpecialVariations(
+    currentSnakeDirection,
+    directionType
+  );
+
+  if (
+    currentSnakeDirection !== directionType &&
+    !isOpositeDirection &&
+    !isAppliedVariations
+  ) {
+    if (['down', 'right'].includes(directionType)) {
+      return new Set([
+        ...snakeArr.slice(...(isAddingNewItemToSnake ? [] : [0, -1])).reverse(),
+        positionValue,
+      ]);
+    }
+    return new Set([
+      positionValue,
+      ...snakeArr.slice(...(isAddingNewItemToSnake ? [] : [1])).reverse(),
+    ]);
+  }
+
+  if (['down', 'right'].includes(directionType)) {
+    return new Set([
+      ...snakeArr.slice(...(isAddingNewItemToSnake ? [] : [1])),
+      positionValue,
+    ]);
+  }
+
+  return new Set([
+    positionValue,
+    ...snakeArr.slice(...(isAddingNewItemToSnake ? [] : [0, -1])),
+  ]);
+};
+
 export const resizeAddingNewValueToNewHead = (
   snakeArr: Number[],
   positionValue: number,
-  directionType: TDirections | null
+  directionType: TDirections | null,
+  currentSnakeDirection: TDirections | null
 ) => {
-  if (directionType && ['right', 'down'].includes(directionType)) {
-    return new Set([...snakeArr, positionValue]);
-  }
-  return new Set([positionValue, ...snakeArr]);
+  return sortItemsOfSnake(
+    snakeArr,
+    positionValue,
+    directionType ?? 'down',
+    currentSnakeDirection,
+    true
+  );
 };
+
+export const isAppliedSpecialVariations = (
+  currentSnakeDirection: TDirections | null,
+  directionType: TDirections
+) =>
+  [
+    currentSnakeDirection === 'right' && directionType === 'down',
+    currentSnakeDirection === 'down' && directionType === 'right',
+    currentSnakeDirection === 'left' && directionType === 'up',
+    currentSnakeDirection === 'up' && directionType === 'left',
+  ].some((validation) => validation === true);
 
 /**
  * Order of items are important because I'm using slice method
- * so the order related with the head and the tail of snake
+ * so the order is related with the head and the tail of snake
  * @param snakeArr
  * @param positionValue
  * @param directionType
@@ -31,12 +89,16 @@ export const resizeAddingNewValueToNewHead = (
 export const removeTailAddingNewValuesToHead = (
   snakeArr: Number[],
   positionValue: number,
-  directionType: TDirections
+  directionType: TDirections,
+  currentSnakeDirection: TDirections | null
 ) => {
-  if (['right', 'down'].includes(directionType)) {
-    return new Set([...snakeArr.slice(1), positionValue]);
-  }
-  return new Set([positionValue, ...snakeArr.slice(0, -1)]);
+  return sortItemsOfSnake(
+    snakeArr,
+    positionValue,
+    directionType,
+    currentSnakeDirection,
+    false
+  );
 };
 
 export const validKeyboardCodes = [
@@ -53,24 +115,52 @@ export const manageKeyEvent: Record<TKeyboardEvents, TDirections> = {
   ArrowRight: 'right',
 };
 
-export const getByPosition = (col: number, row: number) => ({
-  down: {
-    col,
-    row: row + 1,
-  },
-  up: {
-    col,
-    row: row - 1,
-  },
-  left: {
-    col: col - 1,
-    row,
-  },
-  right: {
-    col: col + 1,
-    row,
-  },
-});
+export const isOposite = (
+  currentDirection: TDirections | null,
+  newDirection: TDirections | null
+) => {
+  if (currentDirection === 'down' && newDirection === 'up') {
+    return true;
+  }
+  if (currentDirection === 'up' && newDirection === 'down') {
+    return true;
+  }
+  if (currentDirection === 'right' && newDirection === 'left') {
+    return true;
+  }
+  if (currentDirection === 'left' && newDirection === 'right') {
+    return true;
+  }
+  return false;
+};
+
+export const getByPosition = (
+  col: number,
+  row: number,
+  currentDirection: TDirections | null,
+  newDirection: TDirections
+) => {
+  const validation = {
+    down: {
+      col,
+      row: row + 1,
+    },
+    up: {
+      col,
+      row: row - 1,
+    },
+    left: {
+      col: col - 1,
+      row,
+    },
+    right: {
+      col: col + 1,
+      row,
+    },
+  };
+
+  return validation;
+};
 
 export const buildNodeValue = (i: number, j: number): TSnakePosition => {
   return {

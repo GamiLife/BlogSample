@@ -1,3 +1,4 @@
+import { isOposite } from '..';
 import { TDirections } from '../../components/grid/grid';
 import { Node } from './Node';
 
@@ -91,15 +92,14 @@ export class LinkedList<T> {
     if (!this.head) return this;
     if (!this.tail) return this;
 
+    const shouldBeReversed = isOposite(this.currentDirection, currentDirection);
+    this.currentDirection = currentDirection;
+
     if (this.length === 1) {
       this.head.value = valueForNewTail;
       this.tail.value = valueForNewTail;
       return this;
     }
-
-    const shouldBeReversed =
-      currentDirection && currentDirection !== this.currentDirection;
-    this.currentDirection = currentDirection;
 
     if (shouldBeReversed) {
       this.reverse();
@@ -160,8 +160,7 @@ export class LinkedList<T> {
       return this.push(valuesForHead);
     }
 
-    const shouldBeReversed =
-      currentDirection && currentDirection !== this.currentDirection;
+    const shouldBeReversed = isOposite(this.currentDirection, currentDirection);
     this.currentDirection = currentDirection;
 
     if (shouldBeReversed) {
