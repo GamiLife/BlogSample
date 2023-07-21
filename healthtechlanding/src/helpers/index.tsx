@@ -1,5 +1,5 @@
 export const validClassName = (className: string) => {
-  const isInvalid = ['undefined', 'null'].includes(className);
+  const isInvalid = className.includes('undefined');
 
   return isInvalid ? '' : className;
 };

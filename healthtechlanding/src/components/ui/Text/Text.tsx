@@ -5,25 +5,25 @@ type TVariations = '1' | '2' | '3' | '4' | '5' | '6';
 type TUnderlineVariations = '1' | '2' | '4' | '8';
 
 export interface IText {
-  text: string;
+  text: string | React.ReactNode;
   level: 'sm' | 'base' | 'lg' | 'xl' | '2xl';
   fontWeight?: 'light' | 'normal' | 'medium' | 'semibold' | 'bold';
   underline?: `offset-${TUnderlineVariations}`;
-  as: `h${TVariations}` | 'p';
+  as?: `h${TVariations}` | 'p';
 }
 
 export const Text: React.FC<IText> = ({
   text,
   level,
-  as,
+  as = 'p',
   underline,
   fontWeight = 'medium',
 }) => {
   const Component = as;
   const className = useMemo(
     () =>
-      `text-${level} font-${fontWeight} ${validClassName(
-        `underline underline-${underline}`
+      `text-${level} font-${fontWeight}${validClassName(
+        ` underline underline-${underline}`
       )}`,
     [level, fontWeight, underline]
   );
