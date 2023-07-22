@@ -14,10 +14,18 @@ const VisualExample: React.FC<TVisualExample> = ({ children }) => (
 
 export interface ISection {
   children: React.ReactNode;
+  id?: string;
 }
 
-export const Section = ({ children }: ISection) => {
-  return <section className="flex justify-between gap-x-5">{children}</section>;
+export const Section = ({ children, id }: ISection) => {
+  return (
+    <section
+      id={id}
+      className="flex flex-col justify-between gap-5 md:flex-row"
+    >
+      {children}
+    </section>
+  );
 };
 
 Section.Information = Information;

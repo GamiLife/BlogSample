@@ -10,6 +10,7 @@ export interface IText {
   fontWeight?: 'light' | 'normal' | 'medium' | 'semibold' | 'bold';
   underline?: `offset-${TUnderlineVariations}`;
   as?: `h${TVariations}` | 'p';
+  className?: string;
 }
 
 export const Text: React.FC<IText> = ({
@@ -18,15 +19,16 @@ export const Text: React.FC<IText> = ({
   as = 'p',
   underline,
   fontWeight = 'medium',
+  className,
 }) => {
   const Component = as;
-  const className = useMemo(
+  const classNameBuilt = useMemo(
     () =>
       `text-${level} font-${fontWeight}${validClassName(
         ` underline underline-${underline}`
-      )}`,
-    [level, fontWeight, underline]
+      )} ${className ?? ''}`,
+    [level, fontWeight, underline, className]
   );
 
-  return <Component className={className}>{text}</Component>;
+  return <Component className={classNameBuilt}>{text}</Component>;
 };

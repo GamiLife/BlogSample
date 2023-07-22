@@ -1,22 +1,31 @@
 import { HomeIcon, LockerIcon, UserIcon } from '../ui/Icons';
 
+interface IPill {
+  children: React.ReactNode;
+}
+const Pill = ({ children }: IPill) => (
+  <div className="flex flex-between px-2 py-1 md:p-0 rounded-full bg-neutralPrimary md:bg-transparent gap-1 md:gap-2 text-sm">
+    {children}
+  </div>
+);
+
 export const ServicesPill = () => {
   return (
-    <div className="flex flex-between gap-10 py-3 px-8 bg-slate-100 rounded-full max-w-fit text-slate-500">
-      <div className="flex flex-between gap-5">
+    <div className="flex flex-between flex-wrap md:bg-neutralPrimary md:rounded-full gap-5 md:gap-10 py-3 md:px-8 max-w-fit text-slate-500">
+      <Pill>
         <UserIcon />
         <span>Atención 24/7</span>
-      </div>
+      </Pill>
 
-      <div className="flex flex-between gap-5">
+      <Pill>
         <HomeIcon />
-        <span>A domicilio. Sin filas</span>
-      </div>
+        <span>A domicilio.Sin filas</span>
+      </Pill>
 
-      <div className="flex flex-between gap-5">
+      <Pill>
         <LockerIcon />
         <span>Seguro</span>
-      </div>
+      </Pill>
     </div>
   );
 };

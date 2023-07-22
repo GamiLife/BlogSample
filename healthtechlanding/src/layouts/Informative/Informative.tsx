@@ -1,4 +1,5 @@
 import { Button } from '../../components/ui/Button';
+import { RightIcon } from '../../components/ui/Icons';
 import { Text } from '../../components/ui/Text';
 import { IText } from '../../components/ui/Text/Text';
 
@@ -21,7 +22,12 @@ const Description: React.FC<TDescription> = ({ children }) => (
 type TAction = TInformativeElement;
 const Action: React.FC<TAction> = ({ children }) => (
   <Button className="max-w-fit">
-    <span>{children}</span>
+    <span className="flex items-center gap-2">
+      {children}
+      <span>
+        <RightIcon />
+      </span>
+    </span>
   </Button>
 );
 

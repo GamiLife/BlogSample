@@ -6,7 +6,7 @@ export interface IButton {
 export const Button: React.FC<IButton> = ({ children, className }) => {
   return (
     <button
-      className={`bg-blue-500 hover:bg-blue-700 text-white font-light py-2 px-6 rounded-full ${className}`}
+      className={`bg-primary text-white font-light py-2 px-6 rounded-full ${className}`}
     >
       {children}
     </button>
