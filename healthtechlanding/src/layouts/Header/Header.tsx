@@ -11,7 +11,7 @@ export const Header = () => {
 
   return (
     <header className="sticky top-0 bg-white z-10">
-      <nav className="border-gray-200 px-4 py-2.5 lg:px-6 bg-white dark:bg-gray-800">
+      <nav className="border-gray-200 px-4 py-2.5 lg:px-6 bg-white">
         <div className="flex flex-wrap gap-3 justify-between items-center mx-auto max-w-screen-xl">
           <a href="#" className="flex items-center">
             <Image

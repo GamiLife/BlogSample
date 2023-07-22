@@ -39,7 +39,7 @@ export const Image: React.FC<IImage> = ({
         {...imageProps}
       />
       {caption && (
-        <figcaption className="mt-2 text-sm text-center text-gray-500 dark:text-gray-400">
+        <figcaption className="mt-2 text-sm text-center text-gray-500">
           {caption}
         </figcaption>
       )}

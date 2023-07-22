@@ -11,7 +11,7 @@ import { DiseaseDetail } from '../src/components/DiseaseDetail';
 
 const Home: NextPage = () => {
   return (
-    <div className="flex flex-col gap-32 md:gap-24">
+    <div className="flex flex-col gap-20 md:gap-24">
       <div>
         <Section>
           <Section.Information>
