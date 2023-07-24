@@ -21,7 +21,9 @@ dist-ssr
 *.ntvs*
 *.njsproj
 *.sln
+*.json
 *.sw?
 
 db.json
 bot.qr.png
+bot_sessions
