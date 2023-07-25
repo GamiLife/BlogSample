@@ -8,6 +8,7 @@ const updateUser = async (phone, set) => {
       .updateOne({ phone }, { $set: set }, { upsert: true });
   } catch (error) {
     console.log('Error: ', error);
+    throw new Error('Error', error);
   }
 };
 
@@ -18,6 +19,7 @@ const findUserByPhone = async (phone) => {
     return user;
   } catch (error) {
     console.log('Error: ', error);
+    throw new Error('Error', error);
   }
 };
 

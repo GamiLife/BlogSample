@@ -15,17 +15,20 @@ const third = addKeyword(keywords)
   .addAnswer(
     question3,
     { capture: true },
-    async (ctx, { fallBack }) => {
+    async (ctx, { fallBack, flowDynamic, gotoFlow }) => {
       const optionTyped = ctx.body;
       const phone = ctx.from;
 
-      await handleQuestionProcess({
+      const isContinue = await handleQuestionProcess({
         question: question2,
         optionTyped,
         phone,
         fallBack,
+        flowDynamic,
         isFirstQuestion: true,
       });
+
+      if (!isContinue) return;
     },
     [fourth]
   );

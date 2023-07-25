@@ -14,16 +14,19 @@ const sixth = addKeyword(keywords)
   .addAnswer(
     question2,
     { capture: true },
-    async (ctx, { fallBack }) => {
+    async (ctx, { fallBack, flowDynamic, gotoFlow }) => {
       const optionTyped = ctx.body;
       const phone = ctx.from;
 
-      await handleQuestionProcess({
+      const isContinue = await handleQuestionProcess({
         question: question1,
         optionTyped,
         phone,
         fallBack,
+        flowDynamic,
       });
+
+      if (!isContinue) return;
     },
     [seven]
   );

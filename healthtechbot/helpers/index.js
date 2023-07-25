@@ -4,6 +4,8 @@ const {
   findLastExamIdByPhone,
 } = require('../services');
 
+const { invalidOption } = require('../config/constants/messages');
+const { isCorrectRange } = require('../validators');
 const { cache } = require('../config/cache');
 
 const handleQuestionProcess = async ({
@@ -11,13 +13,15 @@ const handleQuestionProcess = async ({
   optionTyped,
   phone,
   fallBack,
+  flowDynamic,
   isFirstQuestion = false,
 }) => {
   const isValid = isCorrectRange([1, 2], Number(optionTyped));
 
   if (!isValid) {
-    fallBack('Opción Inválida');
-    return;
+    await flowDynamic(invalidOption);
+    await fallBack();
+    return false;
   }
 
   let examId;
@@ -33,9 +37,24 @@ const handleQuestionProcess = async ({
   }
 
   await insertQuestionWithAnswer(question, optionTyped, phone, examId);
-  return;
+
+  return examId;
+};
+
+const isUserSickBasedInAnswers = (answers) => {
+  if (!answers) return false;
+
+  try {
+    const answersMarkedWithYes = answers.filter(({ answer }) => answer == '1');
+
+    const isHighSignalOfSickness = answersMarkedWithYes.length > 5;
+    return isHighSignalOfSickness;
+  } catch (error) {
+    throw new Error('Error analyzing answers');
+  }
 };
 
 module.exports = {
   handleQuestionProcess,
+  isUserSickBasedInAnswers,
 };

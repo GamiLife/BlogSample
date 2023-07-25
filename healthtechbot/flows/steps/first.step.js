@@ -34,7 +34,7 @@ const variationWithoutUserFullName = addKeyword([])
   .addAnswer(
     '🤔',
     { capture: true },
-    async (ctx, { gotoFlow }) => {
+    async (ctx, { fallBack }) => {
       const fullName = ctx.body;
       const phone = ctx.from;
 

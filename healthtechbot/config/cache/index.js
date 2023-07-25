@@ -1,18 +1,19 @@
 const NodeCache = require('node-cache');
 
 class SingletonCache {
-  static instance;
   static cache;
 
   static init() {
-    if (SingletonCache.client) {
+    if (SingletonCache.cache) {
       return null;
     }
 
     try {
       const cache = new NodeCache({ deleteOnExpire: false });
       SingletonCache.cache = cache;
+      console.log('✔️ Correct Cache Initialization');
     } catch (error) {
+      console.log('❌ Wrong Cache Initialization');
       throw new Error(error);
     }
   }

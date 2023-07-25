@@ -4,17 +4,56 @@ const findLastExamIdByPhone = async (phone) => {
   try {
     const cl = await client();
 
-    const userExam = await cl
+    const [userExam] = await cl.db
       .collection('user_exam')
-      .findOne({ phone })
+      .find({ phone })
       .sort({ examId: -1 })
-      .limit(1);
+      .limit(1)
+      .toArray();
 
-    const examId = userExam ? userExam.examId : 1;
+    const examId = userExam ? userExam.examId : 0;
 
     return examId;
   } catch (error) {
     console.log('Error: ', error);
+    throw new Error('Error', error);
+  }
+};
+
+const findLastExamByPhone = async (phone) => {
+  try {
+    const cl = await client();
+
+    const [userExam] = await cl.db
+      .collection('user_exam')
+      .find({ phone })
+      .sort({ examId: -1 })
+      .limit(1)
+      .toArray();
+
+    return userExam;
+  } catch (error) {
+    console.log('Error: ', error);
+    throw new Error('Error', error);
+  }
+};
+
+const completeExam = async (phone, examId) => {
+  try {
+    const cl = await client();
+
+    await cl.db.collection('user_exam').updateOne(
+      { phone, examId },
+      {
+        $set: {
+          isCompleted: true,
+          date: new Date(),
+        },
+      }
+    );
+  } catch (error) {
+    console.log('Error: ', error);
+    throw new Error('Error', error);
   }
 };
 
@@ -23,14 +62,19 @@ const insertExam = async (phone) => {
     const cl = await client();
 
     const examId = await findLastExamIdByPhone(phone);
+    const examIdToInsert = +examId + 1;
 
-    await cl.collection('user_exam').insert({
+    await cl.db.collection('user_exam').insertOne({
       phone,
-      examId: +examId + 1,
+      isCompleted: false,
+      examId: examIdToInsert,
       date: new Date(),
     });
+
+    return examIdToInsert;
   } catch (error) {
     console.log('Error: ', error);
+    throw new Error('Error', error);
   }
 };
 
@@ -38,7 +82,7 @@ const insertQuestionWithAnswer = async (question, answer, phone, examId) => {
   try {
     const cl = await client();
 
-    await cl.collection('questions_answers').insert({
+    await cl.db.collection('questions_answers').insertOne({
       question,
       answer,
       phone,
@@ -47,6 +91,7 @@ const insertQuestionWithAnswer = async (question, answer, phone, examId) => {
     });
   } catch (error) {
     console.log('Error: ', error);
+    throw new Error('Error', error);
   }
 };
 
@@ -54,7 +99,7 @@ const findLastQuestionWithAnswersByPhone = async (phone, examId) => {
   try {
     const cl = await client();
 
-    const questionsWithAnswers = await cl
+    const questionsWithAnswers = await cl.db
       .collection('questions_answers')
       .find({
         phone,
@@ -62,11 +107,13 @@ const findLastQuestionWithAnswersByPhone = async (phone, examId) => {
       })
       .sort({
         date: -1,
-      });
+      })
+      .toArray();
 
     return questionsWithAnswers;
   } catch (error) {
     console.log('Error: ', error);
+    throw new Error('Error', error);
   }
 };
 
@@ -75,4 +122,6 @@ module.exports = {
   findLastQuestionWithAnswersByPhone,
   insertExam,
   findLastExamIdByPhone,
+  findLastExamByPhone,
+  completeExam,
 };

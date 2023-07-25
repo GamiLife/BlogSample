@@ -1,5 +1,7 @@
 const { createBot, createProvider, createFlow } = require('@bot-whatsapp/bot');
 
+const { cache } = require('./config/cache');
+
 const QRPortalWeb = require('@bot-whatsapp/portal');
 const BaileysProvider = require('@bot-whatsapp/provider/baileys');
 const JSONAdapter = require('@bot-whatsapp/database/json');
@@ -19,7 +21,9 @@ const main = async () => {
   });
 
   QRPortalWeb();
+
   await client();
+  cache();
 };
 
 main();

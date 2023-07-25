@@ -11,6 +11,18 @@ const optionsForTreatmentToShow = [
   '*3. Noche*',
 ];
 
+const linkForThirdVariation1 = {
+  1: 'https://www.marktechpost.com/',
+  2: 'https://www.marktechpost.com/',
+  3: 'https://www.marktechpost.com/',
+};
+
+const linkForThirdVariation2 = {
+  1: 'https://www.marktechpost.com/',
+  2: 'https://www.marktechpost.com/',
+  3: 'https://www.marktechpost.com/',
+};
+
 const conversation = {
   firstStep: {
     keywords: ['hola', 'ola', 'buenos'],
@@ -33,31 +45,31 @@ const conversation = {
     ],
   },
   fourthStep: {
-    keywords: [],
+    keywords: ['1', '2'],
     questions: ['2. Presentas tos ? 🤔', optionsToShow],
   },
   fifthStep: {
-    keywords: [],
+    keywords: ['1', '2'],
     questions: ['3. Presentas tos ? 🤔', optionsToShow],
   },
   sixthStep: {
-    keywords: [],
+    keywords: ['1', '2'],
     questions: ['4. Presentas tos ? 🤔', optionsToShow],
   },
   sevenStep: {
-    keywords: [],
+    keywords: ['1', '2'],
     questions: ['5. Presentas tos ? 🤔', optionsToShow],
   },
   eighthStep: {
-    keywords: [],
+    keywords: ['1', '2'],
     questions: ['6. Presentas tos ? 🤔', optionsToShow],
   },
   ninethStep: {
-    keywords: [],
+    keywords: ['1', '2'],
     questions: ['7. Presentas tos ? 🤔', optionsToShow],
   },
   tenthStepVariation1: {
-    keywords: [],
+    keywords: ['1', '2'],
     questions: [
       'Según tu estilo de vida, es probable que tengas un nivel Alto/Medio de Diabetes o tengas Diabetes.',
       'Puedes tener un tratamiento con el doctor endocrinologo. Que horarios te interesan?',
@@ -65,7 +77,7 @@ const conversation = {
     ],
   },
   tenthStepVariation2: {
-    keywords: [],
+    keywords: ['1', '2'],
     questions: [
       'Según tu estilo de vida, es probable que tengas un nivel Bajo de Diabetes pero aún así hay que cuidarse en caso te detecten Pre- Diabetes',
       'Puedes tener un tratamiento con un medico general. Que horarios te interesa?',
@@ -79,4 +91,6 @@ module.exports = {
   templateWelcome,
   missingDocumentNumberMessage,
   alreadyUserRegistered,
+  linkForThirdVariation1,
+  linkForThirdVariation2,
 };
