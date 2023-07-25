@@ -3,17 +3,17 @@ const { conversation } = require('../../config/constants/conversation');
 
 const { handleQuestionProcess } = require('../../helpers');
 
-const { fourth } = require('./fourth.step');
+const { tenthStepVar1 } = require('./ten-step/variation1/ten1.step');
+const { tenthStepVar2 } = require('./ten-step/variation2/ten2.step');
 
-const { thirdStep } = conversation;
-const { keywords, questions } = thirdStep;
-const [question1, question2, question3] = questions;
+const { ninethStep } = conversation;
+const { keywords, questions } = ninethStep;
+const [question1, question2] = questions;
 
-const third = addKeyword(keywords)
+const nineth = addKeyword(keywords)
   .addAnswer(question1)
-  .addAnswer(question2)
   .addAnswer(
-    question3,
+    question2,
     { capture: true },
     async (ctx, { fallBack }) => {
       const optionTyped = ctx.body;
@@ -24,10 +24,9 @@ const third = addKeyword(keywords)
         optionTyped,
         phone,
         fallBack,
-        isFirstQuestion: true,
       });
     },
-    [fourth]
+    []
   );
 
-module.exports = { third };
+module.exports = { nineth };

@@ -3,10 +3,12 @@ const { addKeyword } = require('@bot-whatsapp/bot');
 const {
   conversation,
   templateWelcome,
+  missingDocumentNumberMessage,
+  alreadyUserRegistered,
 } = require('../../config/constants/conversation');
 const { second } = require('./second.step');
 const { third } = require('./third.step');
-const { client } = require('../../config/db/Singleton.db');
+const { updateUser, findUserByPhone } = require('../../services');
 
 const { firstStep } = conversation;
 const { keywords, questions } = firstStep;
@@ -15,7 +17,7 @@ const [question1, question2] = questions;
 const variationWithUserFullNameAndDocumentNumber = addKeyword([])
   .addAnswer('')
   .addAnswer(
-    'Ya estas registrado! 😃',
+    alreadyUserRegistered,
     null,
     async (ctx, { gotoFlow }) => {
       try {
@@ -33,21 +35,10 @@ const variationWithoutUserFullName = addKeyword([])
     '🤔',
     { capture: true },
     async (ctx, { gotoFlow }) => {
-      try {
-        const fullName = ctx.body;
-        const phone = ctx.from;
+      const fullName = ctx.body;
+      const phone = ctx.from;
 
-        const cl = await client();
-        cl.db
-          .collection('users')
-          .updateOne(
-            { phone: phone },
-            { $set: { fullName, phone } },
-            { upsert: true }
-          );
-      } catch (error) {
-        console.log('Error: ', error);
-      }
+      await updateUser(phone, { fullName, phone });
     },
     [second]
   );
@@ -71,15 +62,14 @@ const first = addKeyword(keywords).addAnswer(
   'Hey!',
   null,
   async (ctx, { gotoFlow, flowDynamic }) => {
-    try {
-      const phone = ctx.from;
+    const phone = ctx.from;
 
-      const cl = await client();
-      const user = await cl.db.collection('users').findOne({ phone: phone });
+    try {
+      const user = await findUserByPhone(phone);
 
       if (user && user.fullName && !user.documentNumber) {
         const mess = templateWelcome(user.fullName);
-        await flowDynamic([mess, 'Nos falta tener tu dni 😃']);
+        await flowDynamic([mess, missingDocumentNumberMessage]);
         gotoFlow(variationWithUserFullNameButWithoutDocumentNumber);
         return;
       }

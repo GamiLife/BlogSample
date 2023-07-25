@@ -3,31 +3,29 @@ const { conversation } = require('../../config/constants/conversation');
 
 const { handleQuestionProcess } = require('../../helpers');
 
-const { fourth } = require('./fourth.step');
+const { eighth } = require('./eigth.step');
 
-const { thirdStep } = conversation;
-const { keywords, questions } = thirdStep;
-const [question1, question2, question3] = questions;
+const { sevenStep } = conversation;
+const { keywords, questions } = sevenStep;
+const [question1, question2] = questions;
 
-const third = addKeyword(keywords)
+const seven = addKeyword(keywords)
   .addAnswer(question1)
-  .addAnswer(question2)
   .addAnswer(
-    question3,
+    question2,
     { capture: true },
     async (ctx, { fallBack }) => {
       const optionTyped = ctx.body;
       const phone = ctx.from;
 
       await handleQuestionProcess({
-        question: question2,
+        question: question1,
         optionTyped,
         phone,
         fallBack,
-        isFirstQuestion: true,
       });
     },
-    [fourth]
+    [eighth]
   );
 
-module.exports = { third };
+module.exports = { seven };

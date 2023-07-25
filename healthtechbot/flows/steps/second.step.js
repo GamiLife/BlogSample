@@ -1,6 +1,6 @@
 const { addKeyword, addAnswer } = require('@bot-whatsapp/bot');
 const { conversation } = require('../../config/constants/conversation');
-const { client } = require('../../config/db/Singleton.db');
+const { updateUser } = require('../../services/user.service');
 
 const { third } = require('./third.step');
 
@@ -17,14 +17,7 @@ const second = addKeyword(keywords).addAnswer(
     const phone = ctx.from;
     const documentNumber = ctx.body;
 
-    const cl = await client();
-    cl.db
-      .collection('users')
-      .updateOne(
-        { phone: phone },
-        { $set: { phone, documentNumber } },
-        { upsert: true }
-      );
+    await updateUser(phone, { phone, documentNumber });
   },
   [third]
 );
