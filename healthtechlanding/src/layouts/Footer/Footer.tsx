@@ -1,10 +1,12 @@
 import { Information } from './Information';
 import { Social } from './Social';
 
+import styles from './Footer.styles';
+
 export const Footer = () => {
   return (
-    <footer className="bg-zinc-700 text-white">
-      <div className="flex flex-wrap gap-10 justify-between p-10 md:p-20 mx-auto max-w-screen-xl">
+    <footer className={styles.FooterCSS}>
+      <div className={styles.FooterContainerCSS}>
         <Social />
         <Information />
       </div>

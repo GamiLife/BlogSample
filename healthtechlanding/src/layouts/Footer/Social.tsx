@@ -2,10 +2,12 @@ import { SocialNetworks } from '../../components/SocialNetworks';
 import { Instagram, TwitterIcon, YoutubeIcon } from '../../components/ui/Icons';
 import { Text } from '../../components/ui/Text';
 
+import styles from './Footer.styles';
+
 export const Social = () => {
   return (
-    <div className="flex flex-col gap-5">
-      <ul className="flex flex-col gap-3">
+    <div className={styles.SocialCSS}>
+      <ul className={styles.SocialListCSS}>
         <li>
           <Text
             text="Copyright © 2023 Figura"

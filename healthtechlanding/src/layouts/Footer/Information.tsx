@@ -1,17 +1,16 @@
 import classNames from 'classnames';
 import { Text } from '../../components/ui/Text';
 
-import styles from './Information.module.css';
+import styles from './Footer.styles';
+import stylesCSS from './Information.module.css';
 
 export const Information = () => {
   return (
-    <div className="flex flex-wrap gap-10 md:gap-20">
+    <div className={styles.InformationCSS}>
       <ul
         className={classNames(
-          'flex',
-          'flex-col',
-          'gap-3',
-          styles.informationHeader
+          styles.InformationListCSS,
+          stylesCSS.informationHeader
         )}
         aria-label="Compañía"
       >
@@ -25,10 +24,8 @@ export const Information = () => {
 
       <ul
         className={classNames(
-          'flex',
-          'flex-col',
-          'gap-3',
-          styles.informationHeader
+          styles.InformationListCSS,
+          stylesCSS.informationHeader
         )}
         aria-label="Apoyo"
       >

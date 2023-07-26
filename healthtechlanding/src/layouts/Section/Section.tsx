@@ -1,15 +1,17 @@
+import styles from './Section.styles';
+
 export type TSectionElement = {
   children: React.ReactNode;
 };
 
 type TInformation = TSectionElement;
 const Information: React.FC<TInformation> = ({ children }) => (
-  <div className="container">{children}</div>
+  <div className={styles.SectionInformationCSS}>{children}</div>
 );
 
 type TVisualExample = TSectionElement;
 const VisualExample: React.FC<TVisualExample> = ({ children }) => (
-  <div className="container flex justify-center items-center">{children}</div>
+  <div className={styles.SectionVisualExampleCSS}>{children}</div>
 );
 
 export interface ISection {
@@ -19,10 +21,7 @@ export interface ISection {
 
 export const Section = ({ children, id }: ISection) => {
   return (
-    <section
-      id={id}
-      className="flex flex-col justify-between gap-5 md:flex-row"
-    >
+    <section id={id} className={styles.SectionCSS}>
       {children}
     </section>
   );

@@ -1,6 +1,8 @@
 import { Image } from '../ui/Image';
 import { Text } from '../ui/Text';
 
+import styles from './Testimonial.styles';
+
 export interface ITestimonial {
   src: string;
   alt: string;
@@ -13,7 +15,7 @@ export const Testimonial: React.FC<ITestimonial> = ({
   testimonia,
 }) => {
   return (
-    <div className="flex flex-col items-center gap-5 px-2">
+    <div className={styles.TestimonialCSS}>
       <Image src={src} alt={alt} width={150} height={210} />
       <Text text={testimonia} level="base" className="text-center" />
     </div>

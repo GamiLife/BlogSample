@@ -2,6 +2,8 @@ import classNames from 'classnames';
 import NextImage from 'next/image';
 import { useMemo } from 'react';
 
+import styles from './Image.styles';
+
 export interface IImage {
   src: string;
   alt: string;
@@ -28,20 +30,18 @@ export const Image: React.FC<IImage> = ({
 
   return (
     <figure
-      className={classNames('max-w-lg flex rounded-[0.8rem]', {
+      className={classNames(styles.FigureCSS, {
         'shadow-lg': hasShadow,
       })}
     >
       <NextImage
-        className="h-auto max-w-full"
+        className={styles.NextImageCSS}
         src={src}
         alt={alt}
         {...imageProps}
       />
       {caption && (
-        <figcaption className="mt-2 text-sm text-center text-gray-500">
-          {caption}
-        </figcaption>
+        <figcaption className={styles.FigCaptionCSS}>{caption}</figcaption>
       )}
     </figure>
   );

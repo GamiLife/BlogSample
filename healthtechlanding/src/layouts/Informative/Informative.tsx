@@ -3,6 +3,8 @@ import { RightIcon } from '../../components/ui/Icons';
 import { Text } from '../../components/ui/Text';
 import { IText } from '../../components/ui/Text/Text';
 
+import styles from './Informative.styles';
+
 export type TInformativeElement = {
   children: string | React.ReactNode;
 };
@@ -22,7 +24,7 @@ const Description: React.FC<TDescription> = ({ children }) => (
 type TAction = TInformativeElement;
 const Action: React.FC<TAction> = ({ children }) => (
   <Button className="max-w-fit">
-    <span className="flex items-center gap-2">
+    <span className={styles.ActionSpanCSS}>
       {children}
       <span>
         <RightIcon />
@@ -36,7 +38,7 @@ export interface IInformative {
 }
 
 export const Informative = ({ children }: IInformative) => {
-  return <div className="flex flex-col gap-y-10">{children}</div>;
+  return <div className={styles.InformativeCSS}>{children}</div>;
 };
 
 Informative.Title = Title;

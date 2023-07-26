@@ -53,7 +53,6 @@ a {
   width: calc(100% - 10px) !important;
 }
 
-/* For the demo */
 .slick-prev,
 .slick-next {
   z-index: 2 !important;

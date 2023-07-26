@@ -1,9 +1,11 @@
+import styles from './SocialNetworks.styles';
+
 export interface ISocialItem {
   children: React.ReactNode;
 }
 
 export const SocialItem: React.FC<ISocialItem> = ({ children }) => {
-  return <div className="flex p-3 rounded-full bg-zinc-600">{children}</div>;
+  return <div className={styles.SocialItemCSS}>{children}</div>;
 };
 
 export interface ISocialNetworks {
@@ -11,7 +13,7 @@ export interface ISocialNetworks {
 }
 
 export const SocialNetworks = ({ children }: ISocialNetworks) => {
-  return <div className="flex justify-between gap-3">{children}</div>;
+  return <div className={styles.SocialNetworksCSS}>{children}</div>;
 };
 
 SocialNetworks.Item = SocialItem;
