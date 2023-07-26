@@ -4,8 +4,11 @@ import { Image } from '../../components/ui/Image';
 import { Text } from '../../components/ui/Text';
 
 import styles from './Sections.styles';
+import { useLandingBotStore } from '../../store';
 
 export const FifthSection = () => {
+  const botUrlSender = useLandingBotStore((state) => state.botUrlSender);
+
   return (
     <Section>
       <Section.Information>
@@ -38,7 +41,9 @@ export const FifthSection = () => {
               </Informative.Description>
             </div>
           </div>
-          <Informative.Action>Comenzar a Cuidarme</Informative.Action>
+          <Informative.Action link={botUrlSender}>
+            Comenzar a Cuidarme
+          </Informative.Action>
         </Informative>
       </Section.Information>
       <Section.VisualExample>

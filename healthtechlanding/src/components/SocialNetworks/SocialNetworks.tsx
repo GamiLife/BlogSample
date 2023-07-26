@@ -1,11 +1,19 @@
+import Link from 'next/link';
 import styles from './SocialNetworks.styles';
 
 export interface ISocialItem {
   children: React.ReactNode;
+  link: string;
 }
 
-export const SocialItem: React.FC<ISocialItem> = ({ children }) => {
-  return <div className={styles.SocialItemCSS}>{children}</div>;
+export const SocialItem: React.FC<ISocialItem> = ({ children, link = '' }) => {
+  return (
+    <Link href={link} target="_blank">
+      <a target="_blank">
+        <div className={styles.SocialItemCSS}>{children}</div>
+      </a>
+    </Link>
+  );
 };
 
 export interface ISocialNetworks {

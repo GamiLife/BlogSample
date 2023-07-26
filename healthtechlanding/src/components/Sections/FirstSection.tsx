@@ -5,8 +5,11 @@ import { Image } from '../../components/ui/Image';
 import { ServicesPill } from '../../components/ServicesPill';
 
 import styles from './Sections.styles';
+import { useLandingBotStore } from '../../store';
 
 export const FirstSection = () => {
+  const botUrlSender = useLandingBotStore((state) => state.botUrlSender);
+
   return (
     <div>
       <Section>
@@ -21,7 +24,9 @@ export const FirstSection = () => {
                 personalizada con expertos en control de azúcar y seguimiento
               </Informative.Description>
             </div>
-            <Informative.Action>Comenzar a Cuidarme</Informative.Action>
+            <Informative.Action link={botUrlSender}>
+              Comenzar a Cuidarme
+            </Informative.Action>
           </Informative>
         </Section.Information>
         <Section.VisualExample>

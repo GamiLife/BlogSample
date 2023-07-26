@@ -3,8 +3,11 @@ import { Informative } from '../../layouts/Informative';
 import { Image } from '../../components/ui/Image';
 
 import styles from './Sections.styles';
+import { useLandingBotStore } from '../../store';
 
 export const FourthSection = () => {
+  const botUrlSender = useLandingBotStore((state) => state.botUrlSender);
+
   return (
     <Section id="acerca-de">
       <Section.VisualExample>
@@ -27,7 +30,9 @@ export const FourthSection = () => {
               glucosa. Agenda citas con tu doctor y tratamientos.
             </Informative.Description>
           </div>
-          <Informative.Action>Comenzar a Cuidarme</Informative.Action>
+          <Informative.Action link={botUrlSender}>
+            Comenzar a Cuidarme
+          </Informative.Action>
         </Informative>
       </Section.Information>
     </Section>

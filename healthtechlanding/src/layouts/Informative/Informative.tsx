@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { Button } from '../../components/ui/Button';
 import { RightIcon } from '../../components/ui/Icons';
 import { Text } from '../../components/ui/Text';
@@ -21,16 +22,22 @@ const Description: React.FC<TDescription> = ({ children }) => (
   <Text text={children} level="base" fontWeight="normal" />
 );
 
-type TAction = TInformativeElement;
-const Action: React.FC<TAction> = ({ children }) => (
-  <Button className="max-w-fit">
-    <span className={styles.ActionSpanCSS}>
-      {children}
-      <span>
-        <RightIcon />
-      </span>
-    </span>
-  </Button>
+type TAction = TInformativeElement & {
+  link: string;
+};
+const Action: React.FC<TAction> = ({ children, link = '/' }) => (
+  <Link href={link} target="_blank">
+    <a target="_blank">
+      <Button className="max-w-fit">
+        <span className={styles.ActionSpanCSS}>
+          {children}
+          <span>
+            <RightIcon />
+          </span>
+        </span>
+      </Button>
+    </a>
+  </Link>
 );
 
 export interface IInformative {

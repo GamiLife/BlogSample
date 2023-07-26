@@ -3,3 +3,9 @@ export const validClassName = (className: string) => {
 
   return isInvalid ? '' : className;
 };
+
+export const getBotUrlSender = (phone: string, message: string) => {
+  const link = `https://wa.me/${phone}?text=${message}`;
+
+  return link;
+};

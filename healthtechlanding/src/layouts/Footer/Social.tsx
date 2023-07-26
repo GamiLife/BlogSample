@@ -1,6 +1,7 @@
 import { SocialNetworks } from '../../components/SocialNetworks';
 import { Instagram, TwitterIcon, YoutubeIcon } from '../../components/ui/Icons';
 import { Text } from '../../components/ui/Text';
+import { INSTAGRAM, TWITTER, YOUTUBE } from '../../constants';
 
 import styles from './Footer.styles';
 
@@ -26,15 +27,15 @@ export const Social = () => {
 
       <div>
         <SocialNetworks>
-          <SocialNetworks.Item>
+          <SocialNetworks.Item link={INSTAGRAM}>
             <Instagram />
           </SocialNetworks.Item>
 
-          <SocialNetworks.Item>
+          <SocialNetworks.Item link={TWITTER}>
             <TwitterIcon />
           </SocialNetworks.Item>
 
-          <SocialNetworks.Item>
+          <SocialNetworks.Item link={YOUTUBE}>
             <YoutubeIcon />
           </SocialNetworks.Item>
         </SocialNetworks>

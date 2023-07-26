@@ -4,8 +4,11 @@ import { Informative } from '../../layouts/Informative';
 import { Testimonials } from '../../components/Testimonials';
 
 import styles from './Sections.styles';
+import { useLandingBotStore } from '../../store';
 
 export const SecondSection = () => {
+  const botUrlSender = useLandingBotStore((state) => state.botUrlSender);
+
   return (
     <Section>
       <Section.Information>
@@ -20,7 +23,9 @@ export const SecondSection = () => {
               control y seguimiento de diabetes y tratamientos.
             </Informative.Description>
           </div>
-          <Informative.Action>Comenzar a Cuidarme</Informative.Action>
+          <Informative.Action link={botUrlSender}>
+            Comenzar a Cuidarme
+          </Informative.Action>
         </Informative>
       </Section.Information>
       <Section.VisualExample>

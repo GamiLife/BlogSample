@@ -4,8 +4,11 @@ import { Informative } from '../../layouts/Informative';
 import { DiseaseDetail } from '../../components/DiseaseDetail';
 
 import styles from './Sections.styles';
+import { useLandingBotStore } from '../../store';
 
 export const ThirdSection = () => {
+  const botUrlSender = useLandingBotStore((state) => state.botUrlSender);
+
   return (
     <Section id="para-ti">
       <Section.VisualExample>
@@ -23,7 +26,9 @@ export const ThirdSection = () => {
               estar más feliz.
             </Informative.Description>
           </div>
-          <Informative.Action>Comenzar a Cuidarme</Informative.Action>
+          <Informative.Action link={botUrlSender}>
+            Comenzar a Cuidarme
+          </Informative.Action>
         </Informative>
       </Section.Information>
     </Section>

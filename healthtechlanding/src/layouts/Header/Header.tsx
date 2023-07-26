@@ -1,24 +1,35 @@
 import { useState } from 'react';
+import Link from 'next/link';
+import classNames from 'classnames';
+
 import { Button } from '../../components/ui/Button';
 import { RightIcon } from '../../components/ui/Icons';
 import { Image } from '../../components/ui/Image';
-import classNames from 'classnames';
 
 import styles from './Header.styles';
+import { useLandingBotStore } from '../../store';
 
-const StartTodayButton = () => (
-  <Button className={styles.StartButtonTodayCSS}>
-    <span className={styles.StartButtonTodaySpanCSS}>
-      Comenzar hoy
-      <span>
-        <RightIcon />
-      </span>
-    </span>
-  </Button>
+interface IStartTodayButton {
+  link: string;
+}
+const StartTodayButton = ({ link }: IStartTodayButton) => (
+  <Link href={link} target="_blank">
+    <a target="_blank">
+      <Button className={styles.StartButtonTodayCSS}>
+        <span className={styles.StartButtonTodaySpanCSS}>
+          Comenzar hoy
+          <span>
+            <RightIcon />
+          </span>
+        </span>
+      </Button>
+    </a>
+  </Link>
 );
 
 export const Header = () => {
   const [linkSelected, setLinkSelected] = useState('');
+  const botUrlSender = useLandingBotStore((state) => state.botUrlSender);
 
   const handleLink = (anchor: string) => setLinkSelected(anchor);
 
@@ -63,12 +74,12 @@ export const Header = () => {
             </ul>
 
             <div className={styles.NavButtonDesktopCSS}>
-              <StartTodayButton />
+              <StartTodayButton link={botUrlSender} />
             </div>
           </div>
 
           <div className={styles.NavButtonMobileCSS}>
-            <StartTodayButton />
+            <StartTodayButton link={botUrlSender} />
           </div>
         </div>
       </nav>
