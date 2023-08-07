@@ -7,7 +7,6 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
 dist
 dist-ssr
 *.local
@@ -27,3 +26,4 @@ bot.pem
 db.json
 bot.qr.png
 bot_sessions
+#node_modules
