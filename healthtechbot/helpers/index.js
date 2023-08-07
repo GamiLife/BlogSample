@@ -14,9 +14,14 @@ const handleQuestionProcess = async ({
   phone,
   fallBack,
   flowDynamic,
+  answerPoints,
   isFirstQuestion = false,
 }) => {
-  const isValid = isCorrectRange([1, 2], Number(optionTyped));
+  const validRange = Array.from(
+    { length: answerPoints.length },
+    (_, i) => i + 1
+  );
+  const isValid = isCorrectRange(validRange, Number(optionTyped));
 
   if (!isValid) {
     await flowDynamic(invalidOption);
@@ -34,9 +39,14 @@ const handleQuestionProcess = async ({
       currentExamIdFromCache === undefined
         ? await findLastExamIdByPhone(phone)
         : +currentExamIdFromCache;
+
+    if (currentExamIdFromCache === undefined) {
+      cache().set(phone, examId);
+    }
   }
 
-  await insertQuestionWithAnswer(question, optionTyped, phone, examId);
+  const point = answerPoints[optionTyped - 1];
+  await insertQuestionWithAnswer(question, optionTyped, phone, examId, point);
 
   return examId;
 };
@@ -45,9 +55,11 @@ const isUserSickBasedInAnswers = (answers) => {
   if (!answers) return false;
 
   try {
-    const answersMarkedWithYes = answers.filter(({ answer }) => answer == '1');
+    const answersPointsTotal = answers.reduce((acc, { point }) => {
+      return acc + point;
+    }, 0);
 
-    const isHighSignalOfSickness = answersMarkedWithYes.length > 5;
+    const isHighSignalOfSickness = answersPointsTotal >= 15;
     return isHighSignalOfSickness;
   } catch (error) {
     throw new Error('Error analyzing answers');

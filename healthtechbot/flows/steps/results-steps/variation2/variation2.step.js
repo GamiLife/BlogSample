@@ -1,19 +1,21 @@
-const { addKeyword, addAnswer } = require('@bot-whatsapp/bot');
+const { addKeyword } = require('@bot-whatsapp/bot');
 
 const { invalidOption } = require('../../../../config/constants/messages');
 const {
   conversation,
   linkForThirdVariation2,
+  firstFinalMessageToShow,
+  secondFinalMessageToShow,
 } = require('../../../../config/constants/conversation');
 
 const { completeExam, findLastExamByPhone } = require('../../../../services');
 const { isCorrectRange } = require('../../../../validators');
 
-const { tenthStepVariation2 } = conversation;
-const { keywords, questions } = tenthStepVariation2;
+const { resultsStepVariation2 } = conversation;
+const { keywords, questions } = resultsStepVariation2;
 const [question1, question2, question3] = questions;
 
-const tenthStepVar2 = addKeyword(keywords)
+const resultsStepVariation2Step = addKeyword(keywords)
   .addAnswer(question1)
   .addAnswer(question2)
   .addAnswer(
@@ -37,16 +39,18 @@ const tenthStepVar2 = addKeyword(keywords)
       }
 
       const link = linkForThirdVariation2[optionTyped];
+      const { message, doctorName } = link;
       if (currentExam) {
         await completeExam(phone, currentExam.examId);
       }
 
       await flowDynamic([
-        'Este es el link del doctor que te podra atender: ',
-        link,
+        firstFinalMessageToShow.replaceAll('{{doctorName}}', doctorName),
+        message,
+        secondFinalMessageToShow,
       ]);
       return endFlow('Gracias! 😃');
     }
   );
 
-module.exports = { tenthStepVar2 };
+module.exports = { resultsStepVariation2Step };

@@ -78,7 +78,13 @@ const insertExam = async (phone) => {
   }
 };
 
-const insertQuestionWithAnswer = async (question, answer, phone, examId) => {
+const insertQuestionWithAnswer = async (
+  question,
+  answer,
+  phone,
+  examId,
+  point
+) => {
   try {
     const cl = await client();
 
@@ -87,6 +93,7 @@ const insertQuestionWithAnswer = async (question, answer, phone, examId) => {
       answer,
       phone,
       examId,
+      point,
       date: new Date(),
     });
   } catch (error) {

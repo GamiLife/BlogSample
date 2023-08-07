@@ -7,11 +7,11 @@ const BaileysProvider = require('@bot-whatsapp/provider/baileys');
 const JSONAdapter = require('@bot-whatsapp/database/json');
 
 const { client } = require('./config/db/Singleton.db');
-const { first } = require('./flows/steps/first.step');
+const { welcomeStepFlow } = require('./flows/steps/welcome-steps/welcome.step');
 
 const main = async () => {
   const adapterDB = new JSONAdapter();
-  const adapterFlow = createFlow([first]);
+  const adapterFlow = createFlow([welcomeStepFlow]);
   const adapterProvider = createProvider(BaileysProvider);
 
   createBot({
