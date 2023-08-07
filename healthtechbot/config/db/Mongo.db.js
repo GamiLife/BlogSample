@@ -24,6 +24,7 @@ class MongoDb {
       this.client = client;
       return this;
     } catch (error) {
+      console.log('Error: ', error);
       throw new Error('Error in connection', error);
     }
   }
