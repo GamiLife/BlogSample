@@ -23,6 +23,7 @@ dist-ssr
 *.sln
 *.sw?
 
+bot.pem
 db.json
 bot.qr.png
 bot_sessions
