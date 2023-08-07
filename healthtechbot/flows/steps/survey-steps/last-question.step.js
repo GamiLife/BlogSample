@@ -21,7 +21,7 @@ const { keywords, questions, answerPoints } = lastSurveyQuestion;
 const [question1, question2] = questions;
 
 const lastSurveyQuestionStep = addKeyword(keywords, {
-  regex: true,
+  regex: false,
 })
   .addAnswer(question1)
   .addAnswer(

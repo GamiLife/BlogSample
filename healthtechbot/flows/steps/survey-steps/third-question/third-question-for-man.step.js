@@ -10,7 +10,7 @@ const { keywords, questions, answerPoints } = thirdSurveyQuestionForMan;
 const [question1, question2] = questions;
 
 const thirdSurveyQuestionForManStep = addKeyword(keywords, {
-  regex: true,
+  regex: false,
 })
   .addAnswer(question1)
   .addAnswer(

@@ -16,7 +16,7 @@ const { keywords, questions } = resultsStepVariation1;
 const [question1, question2, question3] = questions;
 
 const resultsStepVariation1Step = addKeyword(keywords, {
-  regex: true,
+  regex: false,
 })
   .addAnswer(question1)
   .addAnswer(question2)
