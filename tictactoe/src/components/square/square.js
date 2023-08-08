@@ -27,6 +27,19 @@ class Square extends HTMLElement {
     }
   }
 
+  connectedCallback() {
+    this.shadowRoot.innerHTML = `
+        <style>${stylesSquare}</style>
+
+        <div class="square"></div>
+    `;
+
+    this.addEventListener('click', (e) => {
+      if (this.selected) return;
+      this.handlerSquare();
+    });
+  }
+
   handlerSquare() {
     this.selected = true;
     const square = this.shadowRoot.querySelector('.square');
@@ -39,19 +52,6 @@ class Square extends HTMLElement {
 
     store.updateMatrix(this.row, this.col);
     store.togglePlayer();
-  }
-
-  connectedCallback() {
-    this.shadowRoot.innerHTML = `
-        <style>${stylesSquare}</style>
-
-        <div class="square"></div>
-    `;
-
-    this.addEventListener('click', (e) => {
-      if (this.selected) return;
-      this.handlerSquare();
-    });
   }
 }
 
