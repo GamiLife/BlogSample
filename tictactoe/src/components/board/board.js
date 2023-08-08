@@ -17,10 +17,57 @@ class Board extends HTMLElement {
     playerNumber.textContent = currentPlayer;
   }
 
-  isVictory(lastMovePlayer) {
-    const mat = store.matrix;
+  updateEndGame(text) {
+    const playerResult = this.shadowRoot.querySelector('.player_result');
 
-    console.log('test', lastMovePlayer, mat);
+    playerResult.textContent = text;
+  }
+
+  isVictory({ currentPlayer, row, col }) {
+    const player = currentPlayer === 'X' ? 1 : 2;
+    const mat = store.matrix;
+    const iteratorOf3 = Array.from(Array(3).keys());
+
+    const wonInCol = iteratorOf3
+      .map((i) => mat[i][col])
+      .every((item) => item === currentPlayer);
+
+    if (wonInCol) {
+      this.updateEndGame(`Player ${player} Won!`);
+      return;
+    }
+
+    const wonInRow = iteratorOf3
+      .map((i) => mat[row][i])
+      .every((item) => item === currentPlayer);
+
+    if (wonInRow) {
+      this.updateEndGame(`Player ${player} Won!`);
+      return;
+    }
+
+    const isOnAnyDiagonal =
+      row == col || row === 0 || row === 2 || col === 0 || col === 2;
+    if (!isOnAnyDiagonal) {
+      store.turnNumber >= 8 && this.updateEndGame(`Any Player Won`);
+      return;
+    }
+
+    const isTransverse = row !== col;
+    const matMod = isTransverse
+      ? store.matrix.map((row) => row.slice().reverse())
+      : store.matrix;
+
+    const wonInDiagonal = iteratorOf3
+      .map((i) => matMod[i][i])
+      .every((item) => item === currentPlayer);
+
+    if (wonInDiagonal) {
+      this.updateEndGame(`Player ${player} Won!`);
+      return;
+    }
+
+    store.turnNumber >= 8 && this.updateEndGame(`Any Player Won`);
   }
 
   handlerStoreChanges(event) {
@@ -44,8 +91,13 @@ class Board extends HTMLElement {
 
         <div class="board__wrapper">    
             <div class="board__player">
-                <p>Player: <strong class="board__player__number">1</strong></p>
+              <div>
+                <p>Player: <span class="board__player__number">1</span></p>
                 <img class="player_img" width="50" src="https://freetictactoe.com/images/mark-x.png" />
+              </div>
+              <div>
+                <p class="player_result"></p>
+              </div>
             </div>
 
             <div class="board">

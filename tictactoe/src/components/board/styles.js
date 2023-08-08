@@ -8,6 +8,18 @@ const stylesBoard = `
         flex-direction: column;
     }
 
+    p {
+        font-weight: bold;
+    }
+
+    .board__player {
+        display: flex;
+        justify-content: space-between;
+        align-items:center;
+        width: 80%;
+        padding: 1rem;
+    }
+
     .board {
         display: grid;
         grid-template-columns: repeat(3,1fr);
