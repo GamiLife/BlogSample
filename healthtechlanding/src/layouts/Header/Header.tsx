@@ -39,10 +39,10 @@ export const Header = () => {
         <div className={styles.NavContainerCSS}>
           <a href="#" className={styles.NavLogoCSS}>
             <Image
-              src="/assets/logo.png"
+              src="/assets/logo.jpeg"
               alt="Brand Logo"
-              width={100}
-              height={40}
+              width={70}
+              height={60}
               hasShadow={false}
             />
           </a>
