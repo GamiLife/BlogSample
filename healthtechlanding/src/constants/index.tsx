@@ -1,4 +1,4 @@
-export const PHONE_NUMBER = '51965769464';
+export const PHONE_NUMBER = '51906814664';
 export const MESSAGE = 'Hola estoy interesado(a) en el servicio!';
 
 export const INSTAGRAM = '/';
