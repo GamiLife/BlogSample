@@ -16,20 +16,17 @@ const Home: NextPage = () => {
   return (
     <Fragment>
       <Head>
-        <title>Figura Bot - Asistente virtual</title>
-        <link rel="icon" href="/assets/favicon.ico" sizes="any" />
+        <title>Anna - Nuestro Asistente virtual</title>
+        <link rel="icon" href="/assets/brand.jpeg" sizes="any" />
         <meta
           name="description"
-          content="Figura bot es un asistente virtual destinado para brinar una guia medica y derivarte segun tu diagnostico a nuestros medicos especializados o general"
+          content="Anna es un asistente virtual destinado para brinar una guia medica y derivarte segun tu diagnostico a nuestros medicos especializados o general"
           key="desc"
         />
-        <meta
-          property="og:title"
-          content="Figura Bot nuestro asistente Virtual"
-        />
+        <meta property="og:title" content="Anna nuestro asistente Virtual" />
         <meta
           property="og:description"
-          content="Figura bot es un asistente virtual destinado para brinar una guia medica y derivarte segun tu diagnostico a nuestros medicos especializados o general"
+          content="Anna es un asistente virtual destinado para brinar una guia medica y derivarte segun tu diagnostico a nuestros medicos especializados o general"
         />
       </Head>
 
