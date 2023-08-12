@@ -39,13 +39,13 @@ const resultsStepVariation2Step = addKeyword(keywords)
       }
 
       const link = linkForThirdVariation2[optionTyped];
-      const { message, doctorName } = link;
+      const { message } = link;
       if (currentExam) {
         await completeExam(phone, currentExam.examId);
       }
 
       await flowDynamic([
-        firstFinalMessageToShow.replaceAll('{{doctorName}}', doctorName),
+        firstFinalMessageToShow,
         message,
         secondFinalMessageToShow,
       ]);

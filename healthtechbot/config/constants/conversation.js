@@ -1,30 +1,24 @@
 const linkForThirdVariation1 = {
   1: {
-    message: 'https://www.marktechpost.com/',
-    doctorName: 'Jose',
+    message: 'https://agendalo.io/anna-equipo/equipo-medico',
   },
   2: {
-    message: 'https://www.marktechpost.com/',
-    doctorName: 'Jose',
+    message: 'https://agendalo.io/anna-equipo/turno-tarde',
   },
   3: {
-    message: 'https://www.marktechpost.com/',
-    doctorName: 'Jose',
+    message: 'https://agendalo.io/anna-equipo/turno-noche',
   },
 };
 
 const linkForThirdVariation2 = {
   1: {
-    message: 'https://www.marktechpost.com/',
-    doctorName: 'Jose',
+    message: 'https://agendalo.io/anna-equipo/consulta-medica-dr-angello',
   },
   2: {
-    message: 'https://www.marktechpost.com/',
-    doctorName: 'Jose',
+    message: 'https://agendalo.io/anna-equipo/consulta-medica-dr-angello',
   },
   3: {
-    message: 'https://www.marktechpost.com/',
-    doctorName: 'Jose',
+    message: 'https://agendalo.io/anna-equipo/consulta-medica-dr-angello',
   },
 };
 
@@ -32,7 +26,7 @@ const missingDocumentNumberMessage = 'Nos falta tener tu dni 😃';
 const missingGenderMessage = 'Nos falta tener tu sexo 😃';
 const alreadyUserRegistered = 'Genial ya te encuentra registrado!';
 
-const firstFinalMessageToShow = `Agenda un consulta virtual con el doctor {{doctorName}}, aqui.`;
+const firstFinalMessageToShow = `Agenda un consulta virtual aqui.`;
 const secondFinalMessageToShow =
   'Una vez programada tu cita, nos contactaremos por aquí para que efectúes el pago.';
 

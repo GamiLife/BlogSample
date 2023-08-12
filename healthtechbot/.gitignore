@@ -25,5 +25,7 @@ dist-ssr
 bot.pem
 db.json
 bot.qr.png
-bot_sessions
 node_modules
+
+.env
+bot_sessions
