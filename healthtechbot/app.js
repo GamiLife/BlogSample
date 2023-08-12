@@ -1,4 +1,3 @@
-require('dotenv').config;
 const { createBot, createProvider, createFlow } = require('@bot-whatsapp/bot');
 
 const { cache } = require('./config/cache');
