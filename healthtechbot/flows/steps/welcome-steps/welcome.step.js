@@ -5,6 +5,7 @@ const {
   alreadyUserRegistered,
 } = require('../../../config/constants/conversation');
 const { findUserByPhone } = require('../../../services');
+const { delay } = require('../../../helpers');
 
 const { genderStepFlow } = require('./gender.step');
 const { documentStepFlow } = require('./document.step');
@@ -24,6 +25,8 @@ const surveyEntry = addKeyword([])
     null,
     async (ctx, { fallBack, flowDynamic, gotoFlow }) => {
       const phone = ctx.from;
+
+      await delay(2000);
 
       try {
         const user = await findUserByPhone(phone);
