@@ -8,6 +8,7 @@ const {
   secondFinalMessageToShow,
 } = require('../../../../config/constants/conversation');
 
+const { delay } = require('../../../../helpers');
 const { completeExam, findLastExamByPhone } = require('../../../../services');
 const { isCorrectRange } = require('../../../../validators');
 
@@ -26,6 +27,8 @@ const resultsStepVariation1Step = addKeyword(keywords, {
     async (ctx, { flowDynamic, fallBack, endFlow }) => {
       const optionTyped = ctx.body;
       const phone = ctx.from;
+
+      await delay(2000);
 
       const isValid = isCorrectRange([1, 2, 3], Number(optionTyped));
 
