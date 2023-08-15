@@ -55,7 +55,7 @@ const welcomeStepFlow = addKeyword(keywords).addAnswer(
   async (ctx, { gotoFlow, flowDynamic }) => {
     const phone = ctx.from;
 
-    await delay(2000);
+    await delay(1000);
 
     try {
       const user = await findUserByPhone(phone);
