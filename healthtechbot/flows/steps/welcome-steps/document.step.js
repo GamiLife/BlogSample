@@ -1,7 +1,12 @@
 const { addKeyword } = require('@bot-whatsapp/bot');
-const { conversation } = require('../../../config/constants/conversation');
+const {
+  conversation,
+  greatMessage,
+} = require('../../../config/constants/conversation');
 const { invalidDocumentNumber } = require('../../../config/constants/messages');
 const { updateUser } = require('../../../services/user.service');
+
+const { delay } = require('../../../helpers');
 const { isCorrectDocumentNumber } = require('../../../validators');
 
 const { genderStepFlow } = require('./gender.step');
@@ -23,6 +28,8 @@ const documentStepFlow = addKeyword(keywords)
 
       const isValid = isCorrectDocumentNumber(documentNumber);
 
+      await delay(2000);
+
       if (!isValid) {
         await flowDynamic(invalidDocumentNumber);
         await fallBack();
@@ -30,7 +37,7 @@ const documentStepFlow = addKeyword(keywords)
       }
 
       await updateUser(phone, { phone, documentNumber });
-      await flowDynamic(['Genial!']);
+      await flowDynamic([greatMessage]);
       await gotoFlow(genderStepFlow);
       return;
     }

@@ -7,6 +7,7 @@ const {
 const {
   handleQuestionProcess,
   isUserSickBasedInAnswers,
+  delay,
 } = require('../../../helpers');
 
 const {
@@ -30,6 +31,8 @@ const lastSurveyQuestionStep = addKeyword(keywords, {
     async (ctx, { fallBack, flowDynamic, gotoFlow }) => {
       const optionTyped = ctx.body;
       const phone = ctx.from;
+
+      await delay(1000);
 
       const examId = await handleQuestionProcess({
         question: question1,

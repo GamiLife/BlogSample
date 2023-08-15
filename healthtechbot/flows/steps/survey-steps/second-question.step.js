@@ -1,14 +1,8 @@
 const { addKeyword } = require('@bot-whatsapp/bot');
 const { conversation } = require('../../../config/constants/conversation');
-const { findUserByPhone } = require('../../../services');
-const { handleQuestionProcess } = require('../../../helpers');
 
-const {
-  thirdSurveyQuestionForManStep,
-} = require('./third-question/third-question-for-man.step');
-const {
-  thirdSurveyQuestionForWomanStep,
-} = require('./third-question/third-question-for-woman.step');
+const { handleQuestionProcess, delay } = require('../../../helpers');
+const { thirdSurveyQuestionStep } = require('./third-question.step');
 
 const { secondSurveyQuestion } = conversation;
 const { keywords, questions, answerPoints } = secondSurveyQuestion;
@@ -25,6 +19,8 @@ const secondSurveyQuestionStep = addKeyword(keywords, {
       const optionTyped = ctx.body;
       const phone = ctx.from;
 
+      await delay(2000);
+
       const isContinue = await handleQuestionProcess({
         question: question1,
         optionTyped,
@@ -35,19 +31,9 @@ const secondSurveyQuestionStep = addKeyword(keywords, {
       });
 
       if (!isContinue) return;
-
-      const user = await findUserByPhone(phone);
-      const genderId = user && user.genderId ? user.genderId : 1;
-
-      if (genderId == 1) {
-        await gotoFlow(thirdSurveyQuestionForManStep);
-        return;
-      }
-
-      await gotoFlow(thirdSurveyQuestionForWomanStep);
       return;
     },
-    [thirdSurveyQuestionForManStep, thirdSurveyQuestionForWomanStep]
+    [thirdSurveyQuestionStep]
   );
 
 module.exports = { secondSurveyQuestionStep };

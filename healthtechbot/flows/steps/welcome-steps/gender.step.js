@@ -7,6 +7,7 @@ const { isCorrectRange } = require('../../../validators');
 const {
   firstSurveyQuestionStep,
 } = require('../survey-steps/first-question.step');
+const { delay } = require('../../../helpers');
 
 const { genderStep } = conversation;
 const { keywords, questions } = genderStep;
@@ -24,6 +25,8 @@ const genderStepFlow = addKeyword(keywords)
       const optionTyped = ctx.body;
 
       const isValid = isCorrectRange([1, 2], Number(optionTyped));
+
+      await delay(2000);
 
       if (!isValid) {
         await flowDynamic(invalidOption);

@@ -66,7 +66,16 @@ const isUserSickBasedInAnswers = (answers) => {
   }
 };
 
+const delay = (time) => {
+  return new Promise((res) => {
+    setTimeout(() => {
+      res();
+    }, time);
+  });
+};
+
 module.exports = {
   handleQuestionProcess,
   isUserSickBasedInAnswers,
+  delay,
 };

@@ -1,15 +1,14 @@
 const { addKeyword } = require('@bot-whatsapp/bot');
-const { conversation } = require('../../../../config/constants/conversation');
+const { conversation } = require('../../../config/constants/conversation');
 
-const { handleQuestionProcess } = require('../../../../helpers');
+const { handleQuestionProcess, delay } = require('../../../helpers');
+const { fourthSurveyQuestionStep } = require('./fourth-question.step');
 
-const { fourthSurveyQuestionStep } = require('../fourth-question.step');
-
-const { thirdSurveyQuestionForMan } = conversation;
-const { keywords, questions, answerPoints } = thirdSurveyQuestionForMan;
+const { thirdSurveyQuestion } = conversation;
+const { keywords, questions, answerPoints } = thirdSurveyQuestion;
 const [question1, question2] = questions;
 
-const thirdSurveyQuestionForManStep = addKeyword(keywords, {
+const thirdSurveyQuestionStep = addKeyword(keywords, {
   regex: false,
 })
   .addAnswer(question1)
@@ -19,6 +18,8 @@ const thirdSurveyQuestionForManStep = addKeyword(keywords, {
     async (ctx, { fallBack, flowDynamic, gotoFlow }) => {
       const optionTyped = ctx.body;
       const phone = ctx.from;
+
+      await delay(2000);
 
       const isContinue = await handleQuestionProcess({
         question: question1,
@@ -34,4 +35,4 @@ const thirdSurveyQuestionForManStep = addKeyword(keywords, {
     [fourthSurveyQuestionStep]
   );
 
-module.exports = { thirdSurveyQuestionForManStep };
+module.exports = { thirdSurveyQuestionStep };

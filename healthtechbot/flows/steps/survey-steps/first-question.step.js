@@ -1,8 +1,7 @@
 const { addKeyword } = require('@bot-whatsapp/bot');
 const { conversation } = require('../../../config/constants/conversation');
 
-const { handleQuestionProcess } = require('../../../helpers');
-
+const { handleQuestionProcess, delay } = require('../../../helpers');
 const { secondSurveyQuestionStep } = require('./second-question.step');
 
 const { firstSurveyQuestion } = conversation;
@@ -19,6 +18,8 @@ const firstSurveyQuestionStep = addKeyword(keywords, {
     async (ctx, { fallBack, flowDynamic, gotoFlow }) => {
       const optionTyped = ctx.body;
       const phone = ctx.from;
+
+      await delay(2000);
 
       const isContinue = await handleQuestionProcess({
         question: question2,

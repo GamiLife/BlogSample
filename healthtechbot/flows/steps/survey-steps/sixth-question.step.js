@@ -1,9 +1,8 @@
 const { addKeyword } = require('@bot-whatsapp/bot');
 const { conversation } = require('../../../config/constants/conversation');
 
-const { handleQuestionProcess } = require('../../../helpers');
-
-const { sevenSurveyQuestionStep } = require('./seven-question.step');
+const { handleQuestionProcess, delay } = require('../../../helpers');
+const { lastSurveyQuestionStep } = require('./last-question.step');
 
 const { sixthSurveyQuestion } = conversation;
 const { keywords, questions, answerPoints } = sixthSurveyQuestion;
@@ -20,6 +19,8 @@ const sixthSurveyQuestionStep = addKeyword(keywords, {
       const optionTyped = ctx.body;
       const phone = ctx.from;
 
+      await delay(2000);
+
       const isContinue = await handleQuestionProcess({
         question: question1,
         optionTyped,
@@ -31,7 +32,7 @@ const sixthSurveyQuestionStep = addKeyword(keywords, {
 
       if (!isContinue) return;
     },
-    [sevenSurveyQuestionStep]
+    [lastSurveyQuestionStep]
   );
 
 module.exports = { sixthSurveyQuestionStep };
