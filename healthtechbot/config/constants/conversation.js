@@ -139,16 +139,16 @@ const conversation = {
   resultsStepVariation1: {
     keywords: '^[1,2,3]$',
     questions: [
-      'Según tu estilo de vida, es probable que tengas un nivel Medio o Alto por ello, te recomendamos tratarte con un profesional de la salud.',
-      'Acá tienes disponibilidad de nuestro staff médico inmediato altamente capacidad.  ¿Qué horarios te interesa?',
+      'Según tu estilo de vida, es probable que tengas un nivel Medio o Alto por ello, te recomendamos que puedas profundizar con un profesional de la salud.',
+      'Acá tienes disponibilidad de nuestro staff médico inmediato altamente capacitado.  ¿Qué horarios te interesa?',
       optionsForTreatmentToShow,
     ],
   },
   resultsStepVariation2: {
     keywords: '^[1,2,3]$',
     questions: [
-      'Según tu estilo de vida, es probable que tengas un nivel Bajo 😃 por ello, te recomendamos tratarte con un profesional de la salud.',
-      'Acá tienes disponibilidad de nuestro staff médico inmediato altamente capacidad.  ¿Qué horarios te interesa?',
+      'Según tu estilo de vida, es probable que tengas un nivel Bajo 😃 por ello, te recomendamos que puedas profundizar con un profesional de la salud.',
+      'Acá tienes disponibilidad de nuestro staff médico inmediato altamente capacitado.  ¿Qué horarios te interesa?',
       optionsForTreatmentToShow,
     ],
   },
