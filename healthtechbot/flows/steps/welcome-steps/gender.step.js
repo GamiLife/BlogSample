@@ -4,9 +4,7 @@ const { invalidOption } = require('../../../config/constants/messages');
 const { updateUser } = require('../../../services/user.service');
 const { isCorrectRange } = require('../../../validators');
 
-const {
-  firstSurveyQuestionStep,
-} = require('../survey-steps/first-question.step');
+const { menuStepFlow } = require('../menu-steps/menu.step');
 const { delay } = require('../../../helpers');
 
 const { genderStep } = conversation;
@@ -40,7 +38,7 @@ const genderStepFlow = addKeyword(keywords)
         'Para poder brindarte un diagnóstico adecuado te haremos unas preguntas.',
         'Te tomará 30 segundos.',
       ]);
-      await gotoFlow(firstSurveyQuestionStep);
+      await gotoFlow(menuStepFlow);
       return;
     }
   );

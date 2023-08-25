@@ -10,9 +10,8 @@ const { delay } = require('../../../helpers');
 const { genderStepFlow } = require('./gender.step');
 const { documentStepFlow } = require('./document.step');
 const { fullNameStepFlow } = require('./fullname.step');
-const {
-  firstSurveyQuestionStep,
-} = require('../survey-steps/first-question.step');
+
+const { menuStepFlow } = require('../menu-steps/menu.step');
 
 const { welcomeStep } = conversation;
 const { keywords, questions } = welcomeStep;
@@ -38,15 +37,11 @@ const surveyEntry = addKeyword([])
           return;
         }
 
-        await flowDynamic([
-          'Para poder brindarte un diagnóstico adecuado te haremos unas preguntas.',
-          'Te tomará 30 segundos.',
-        ]);
-        gotoFlow(firstSurveyQuestionStep);
+        gotoFlow(menuStepFlow);
         return;
       } catch (error) {}
     },
-    [firstSurveyQuestionStep, documentStepFlow, genderStepFlow]
+    [menuStepFlow, documentStepFlow, genderStepFlow]
   );
 
 const welcomeStepFlow = addKeyword(keywords).addAnswer(

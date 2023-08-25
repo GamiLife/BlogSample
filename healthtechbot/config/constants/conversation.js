@@ -22,6 +22,18 @@ const linkForThirdVariation2 = {
   },
 };
 
+const linkForMedicalAppointments = linkForThirdVariation1;
+const linkForExamFromHome = {
+  1: {
+    message:
+      'Listo, para efectuar el pago tenemos YAPE/PLIN con el siguiente número: 999 999 999. El servicio sera en 72 horas',
+  },
+  2: {
+    message:
+      'Listo, para efectuar el pago tenemos YAPE/PLIN con el siguiente número: 999 999 999. El servicio sera en 72 horas',
+  },
+};
+
 const greatMessage = 'Genial 😃!';
 const missingDocumentNumberMessage = 'Nos falta tener tu dni 😃';
 const missingGenderMessage = 'Nos falta tener tu sexo 😃';
@@ -64,6 +76,48 @@ const conversation = {
       [noteForOptions, '*1.Masculino*', '*2.Femenino*'],
     ],
   },
+
+  menuStep: {
+    keywords: ['.'],
+    questions: [
+      `¡Hola{{name}}, ¿Qué deseas hacer hoy?`,
+      [
+        noteForOptions,
+        '*1. Agenda una consulta virtual*',
+        '*2. Agenda tu Examen a domicilio*',
+        '*3. Conócete mejor. Haz tu test de salud aquí*',
+        '*4. Otras consultas*',
+      ],
+    ],
+  },
+  scheduleMedicalAppointment: {
+    keywords: '^[1]$',
+    questions: [
+      `Selecciona tu horario ideal`,
+      [noteForOptions, '*1. Mañana*', '*2. Tarde*', '*3. Noche*'],
+    ],
+  },
+  scheduleExamFromHome: {
+    keywords: '^[2]$',
+    questions: [
+      `Selecciona tu plan de laboratorio:`,
+      [
+        noteForOptions,
+        '*1. Plan 1*',
+        '*2. Plan 2*',
+        '*3. Plan 3*',
+        '*4. ¿No encuentras tu examen?*',
+      ],
+    ],
+  },
+  scheduleExamFromHomeChooseTurn: {
+    keywords: '^[1,2,3]$',
+    questions: [
+      `Selecciona tu horario ideal`,
+      [noteForOptions, '*1. Mañana*', '*2. Tarde*'],
+    ],
+  },
+
   firstSurveyQuestion: {
     keywords: '^[1,2]$',
     questions: [
@@ -164,4 +218,6 @@ module.exports = {
   firstFinalMessageToShow,
   secondFinalMessageToShow,
   greatMessage,
+  linkForMedicalAppointments,
+  linkForExamFromHome,
 };
