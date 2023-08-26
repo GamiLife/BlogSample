@@ -29,19 +29,22 @@ const handleQuestionProcess = async ({
     return false;
   }
 
+  const phoneCache = cache().get(phone) ?? {};
+
   let examId;
   if (isFirstQuestion) {
     examId = await insertExam(phone);
-    cache().set(phone, examId);
+    cache().set(phone, { ...phoneCache, examId });
   } else {
-    const currentExamIdFromCache = cache().get(phone);
+    const currentExamIdFromCache = phoneCache.examId;
+
     examId =
       currentExamIdFromCache === undefined
         ? await findLastExamIdByPhone(phone)
         : +currentExamIdFromCache;
 
     if (currentExamIdFromCache === undefined) {
-      cache().set(phone, examId);
+      cache().set(phone, { ...phoneCache, examId });
     }
   }
 

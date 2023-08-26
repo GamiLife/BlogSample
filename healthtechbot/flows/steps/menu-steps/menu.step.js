@@ -26,41 +26,44 @@ const menuStepFlow = addKeyword(keywords)
       capture: true,
     },
     async (ctx, { flowDynamic, fallBack, gotoFlow }) => {
-      const phone = ctx.from;
-      const optionTyped = ctx.body;
+      try {
+        const optionTyped = ctx.body;
+        const isValid = isCorrectRange([1, 2, 3, 4], Number(optionTyped));
 
-      const isValid = isCorrectRange([1, 2, 3, 4], Number(optionTyped));
+        await delay(2000);
 
-      await delay(2000);
+        if (!isValid) {
+          await flowDynamic(invalidOption);
+          await fallBack();
+          return;
+        }
 
-      if (!isValid) {
-        await flowDynamic(invalidOption);
-        await fallBack();
-        return;
-      }
+        if (optionTyped == '1') {
+          await gotoFlow(medicalAppointmentStep);
+          return;
+        }
+        if (optionTyped == '2') {
+          await gotoFlow(examFromHomeStep);
+          return;
+        }
+        if (optionTyped == '3') {
+          await flowDynamic([
+            'Listo 🙌.Por favor contesta estas preguntas para poder brindarte una atención médica mas personalizada.',
+            'Te tomará 30 segundos.',
+          ]);
+          await gotoFlow(firstSurveyQuestionStep);
+          return;
+        }
 
-      if (optionTyped == '1') {
-        await gotoFlow(medicalAppointmentStep);
-        return;
-      }
-      if (optionTyped == '2') {
-        await gotoFlow(examFromHomeStep);
-        return;
-      }
-      if (optionTyped == '3') {
         await flowDynamic([
-          'Listo 🙌.Por favor contesta estas preguntas para poder brindarte una atención médica mas personalizada.',
-          'Te tomará 30 segundos.',
+          'En unos momentos, te estaremos atendiendo. Estamos derivando a un asesor para poder resolver tu consulta',
         ]);
-        await gotoFlow(firstSurveyQuestionStep);
         return;
+      } catch (error) {
+        console.log('Error: ', error);
       }
-
-      await flowDynamic([
-        'En unos momentos, te estaremos atendiendo. Estamos derivando a un asesor para poder resolver tu consulta',
-      ]);
-      return;
-    }
+    },
+    [medicalAppointmentStep, examFromHomeStep, firstSurveyQuestionStep]
   );
 
 module.exports = { menuStepFlow };

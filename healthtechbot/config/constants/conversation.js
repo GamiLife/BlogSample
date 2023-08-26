@@ -22,15 +22,29 @@ const linkForThirdVariation2 = {
   },
 };
 
-const linkForMedicalAppointments = linkForThirdVariation1;
-const linkForExamFromHome = {
+const linkForMedicalAppointments = {
   1: {
     message:
-      'Listo, para efectuar el pago tenemos YAPE/PLIN con el siguiente número: 999 999 999. El servicio sera en 72 horas',
+      'Haz clic aquí para agendar tu cita virtual: https://agendalo.io/anna-equipo/equipo-medico',
   },
   2: {
     message:
-      'Listo, para efectuar el pago tenemos YAPE/PLIN con el siguiente número: 999 999 999. El servicio sera en 72 horas',
+      'Haz clic aquí para agendar tu cita virtual: https://agendalo.io/anna-equipo/turno-tarde',
+  },
+  3: {
+    message:
+      'Haz clic aquí para agendar tu cita virtual: https://agendalo.io/anna-equipo/turno-noche',
+  },
+};
+
+const linkForExamFromHome = {
+  1: {
+    message:
+      'Listo, para efectuar el pago tenemos YAPE/PLIN con el siguiente número: 992 428 082. El servicio sera en 72 horas',
+  },
+  2: {
+    message:
+      'Listo, para efectuar el pago tenemos YAPE/PLIN con el siguiente número: 992 428 082. El servicio sera en 72 horas',
   },
 };
 
@@ -59,7 +73,7 @@ const conversation = {
       'buenos',
       'Hola estoy interesado(a) en el servicio!',
     ],
-    questions: [`¡Hola{{name}}! *Anna* te da la bienvenida 😃`],
+    questions: [`¡Hola{{name}}!`, '*Anna* te da la bienvenida 😃'],
   },
   fullNameStep: {
     keywords: [],
@@ -80,7 +94,7 @@ const conversation = {
   menuStep: {
     keywords: ['.'],
     questions: [
-      `¡Hola{{name}}, ¿Qué deseas hacer hoy?`,
+      `¿Qué deseas hacer hoy?`,
       [
         noteForOptions,
         '*1. Agenda una consulta virtual*',
@@ -103,9 +117,18 @@ const conversation = {
       `Selecciona tu plan de laboratorio:`,
       [
         noteForOptions,
-        '*1. Plan 1*',
-        '*2. Plan 2*',
-        '*3. Plan 3*',
+        '*1. Plan 1 (Precio: 80 soles + Domicilio: 40 soles):*',
+        ' - Hemoglobina',
+        ' - Glucosa',
+        '*2. Plan 2 (Precio: 220 soles + Domicilio: 40 soles):*',
+        ' - Orina Completa',
+        ' - Hemograma',
+        ' - Perfil Lipidico',
+        ' - Perfil Hepatico',
+        '*3. Plan 3 (Precio: 145 soles + Domicilio: 40 soles):*',
+        ' - Prueba de Tolerancia oral a la glucosa',
+        ' - Creatina en Sangre',
+        ' - Microalbuminuria en orina',
         '*4. ¿No encuentras tu examen?*',
       ],
     ],
